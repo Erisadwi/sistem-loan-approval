@@ -4,7 +4,12 @@ import math
 
 hasil_bp = Blueprint('hasil', __name__)
 
+# =========================
+# FUZZIFIKASI CIBIL
+# =========================
 def fuzzifikasi_cibil(x):
+    x = float(x)
+
     sedang = 0
     tinggi = 0
 
@@ -14,23 +19,34 @@ def fuzzifikasi_cibil(x):
         else:
             sedang = (700 - x) / 100
 
-    if 600 <= x <= 900:
+    if 600 <= x <= 861:
         if x <= 700:
             tinggi = (x - 600) / 100
         else:
-            tinggi = (900 - x) / 200
+            tinggi = (861 - x) / 200
 
-    return "tinggi" if tinggi > sedang else "sedang"
+    kategori = "tinggi" if tinggi > sedang else "sedang"
+
+    return kategori, round(sedang, 4), round(tinggi, 4)
 
 
+# =========================
+# NORMALISASI
+# =========================
 def norm(val, min_val, max_val):
-    return (val - min_val) / (max_val - min_val)
+    return (float(val) - float(min_val)) / (float(max_val) - float(min_val))
 
 
+# =========================
+# EUCLIDEAN DISTANCE
+# =========================
 def distance(a, b):
     return round(math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(len(a)))), 4)
 
 
+# =========================
+# ROUTE HASIL ANALISIS
+# =========================
 @hasil_bp.route('/hasil_analisis')
 def hasil():
 
@@ -40,35 +56,38 @@ def hasil():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # ambil pengajuan
+    # =========================
+    # 1. AMBIL KASUS BARU (FORM)
+    # =========================
     cursor.execute("""
         SELECT * FROM pengajuan
         WHERE id_user=%s
         ORDER BY id_pengajuan DESC
         LIMIT 1
     """, (session['user'],))
+
     baru = cursor.fetchone()
 
     if not baru:
-        cursor.close()
-        conn.close()
         return "Belum ada data pengajuan"
 
-    kategori = fuzzifikasi_cibil(baru['cibil_score'])
+    # =========================
+    # 2. FUZZIFIKASI
+    # =========================
+    kategori, sedang, tinggi = fuzzifikasi_cibil(baru['cibil_score'])
 
-    # ambil kasus lama
-    cursor.execute("""
-        SELECT * FROM basis_kasus
-        WHERE cibil_score=%s
-    """, (kategori,))
-    basis_kasus = cursor.fetchall()
+    # =========================
+    # 3. AMBIL KASUS LAMA
+    # =========================
+    cursor.execute("SELECT * FROM basis_kasus")
+    kasus_lama = cursor.fetchall()
 
-    if not basis_kasus:
-        cursor.close()
-        conn.close()
-        return "Data kasus kosong"
+    if not kasus_lama:
+        return "Data kasus lama kosong"
 
-    # normalisasi data baru
+    # =========================
+    # 4. NORMALISASI DATA BARU
+    # =========================
     baru_norm = [
         norm(baru['no_of_dependents'], 0, 5),
         1 if baru['self_employed'] == "Yes" else 0,
@@ -80,7 +99,11 @@ def hasil():
 
     hasil = []
 
-    for k in basis_kasus:
+    # =========================
+    # 5. HITUNG DISTANCE
+    # =========================
+    for k in kasus_lama:
+
         lama_norm = [
             norm(k['no_of_dependents'], 0, 5),
             1 if k['self_employed'] == "Yes" else 0,
@@ -93,12 +116,14 @@ def hasil():
         d = distance(baru_norm, lama_norm)
 
         hasil.append({
-            'id_kasus': k['id_kasus'],
+            'id_kasus': k['loan_id'],
             'distance': d,
-            'keputusan': k['keputusan']
+            'keputusan': k['loan_status']  # approved / rejecteded
         })
 
-    # similarity
+    # =========================
+    # 6. HITUNG SIMILARITY
+    # =========================
     all_dist = [x['distance'] for x in hasil]
     dmin = min(all_dist)
     dmax = max(all_dist)
@@ -110,53 +135,73 @@ def hasil():
             sim = 1 - ((x['distance'] - dmin) / (dmax - dmin))
             x['similarity'] = round(sim, 4)
 
-    # sorting
+    # =========================
+    # 7. SORTING (RANKING)
+    # =========================
     hasil = sorted(hasil, key=lambda x: x['similarity'], reverse=True)
 
-    # KNN
+    # =========================
+    # 8. KNN
+    # =========================
     n = len(hasil)
-    k = max(1, int(math.sqrt(n)))
+    k_val = max(1, int(math.sqrt(n)))
 
-    topk = hasil[:k]
+    topk = hasil[:k_val]
 
-    approve = sum(1 for x in topk if x['keputusan'] == "Approve")
-    reject = sum(1 for x in topk if x['keputusan'] == "Reject")
+    approved = sum(1 for x in topk if x['keputusan'] == "approved")
+    rejected = sum(1 for x in topk if x['keputusan'] == "rejecteded")
 
-    mdm_approve = None
-    mdm_reject = None
+    mdm_approved = None
+    mdm_rejected = None
 
-    if approve > reject:
-        keputusan = "Approve"
+    # =========================
+    # 9. KEPUTUSAN
+    # =========================
+    if approved > rejected:
+        keputusan = "approved"
 
-    elif reject > approve:
-        keputusan = "Reject"
+    elif rejected > approved:
+        keputusan = "rejected"
 
     else:
-        jarak_approve = [x['distance'] for x in topk if x['keputusan'] == "Approve"]
-        jarak_reject = [x['distance'] for x in topk if x['keputusan'] == "Reject"]
+        # ===== TIE → MDM =====
+        jarak_approved = [x['distance'] for x in topk if x['keputusan'] == "approved"]
+        jarak_rejected = [x['distance'] for x in topk if x['keputusan'] == "rejected"]
 
-        mdm_approve = sum(jarak_approve) / len(jarak_approve)
-        mdm_reject = sum(jarak_reject) / len(jarak_reject)
+        mdm_approved = sum(jarak_approved) / len(jarak_approved) if jarak_approved else float('inf')
+        mdm_rejected = sum(jarak_rejected) / len(jarak_rejected) if jarak_rejected else float('inf')
 
-        keputusan = "Reject" if mdm_reject > mdm_approve else "Approve"
+        # pilih jarak TERKECIL
+        if mdm_approved < mdm_rejected:
+            keputusan = "Approve"
+        else:
+            keputusan = "rejected"
 
-    # simpan hasil
+    # =========================
+    # 10. SIMPAN KE DATABASE
+    # =========================
     cursor.execute("""
-        UPDATE pengajuan
-        SET keputusan=%s
-        WHERE id_pengajuan=%s
-    """, (keputusan, baru['id_pengajuan']))
+        INSERT INTO review_analis (id_pengajuan, keputusan)
+        VALUES (%s, %s)
+    """, (baru['id_pengajuan'], keputusan))
 
     conn.commit()
+
     cursor.close()
     conn.close()
 
+    # =========================
+    # 11. TAMPILKAN KE HTML
+    # =========================
     return render_template(
         'hasil_analisis.html',
         ranking=hasil,
         topk=topk,
         keputusan=keputusan,
-        k=k,
-        mdm_approve=round(mdm_approve, 4) if mdm_approve else None,
-        mdm_reject=round(mdm_reject, 4) if mdm_reject else None
+        k=k_val,
+        kategori_cibil=kategori,
+        nilai_sedang=sedang,
+        nilai_tinggi=tinggi,
+        mdm_approved=round(mdm_approved, 4) if mdm_approved else None,
+        mdm_rejecteded=round(mdm_rejected, 4) if mdm_rejected else None
     )
