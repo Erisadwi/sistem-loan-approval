@@ -7,7 +7,7 @@ auth = Blueprint('auth', __name__)
 @auth.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # 🔥 tambahkan strip (hindari spasi tersembunyi)
+        
         email = request.form['email'].strip()
         password = request.form['password'].strip()
 
@@ -23,11 +23,9 @@ def login():
         if user:
             stored_password = user['password']
 
-            # 🔥 pastikan format password benar (string -> bytes)
             if isinstance(stored_password, str):
                 stored_password = stored_password.encode('utf-8')
 
-            # 🔥 cek password
             if bcrypt.checkpw(password.encode('utf-8'), stored_password):
                 session['user'] = user['id_user']
                 session['nama'] = user['nama']
