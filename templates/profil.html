@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil</title>
+</head>
+<body>
+
+    <h2>Profil User</h2>
+
+    <p>Halo, {{ user.nama }}</p>
+
+    <!-- FOTO PROFIL -->
+    <img src="{{ url_for('static', filename='uploads/' + user.foto) }}" 
+         width="150" height="150">
+
+    <br><br>
+
+    <!-- FORM UPDATE -->
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Nama:</label><br>
+        <input type="text" name="nama" value="{{ user.nama }}"><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" value="{{ user.email }}"><br><br>
+
+        <label>Upload Foto:</label><br>
+        <input type="file" name="foto"><br><br>
+
+        <button type="submit">Update Profil</button>
+
+    </form>
+
+    <br>
+    <a href="/dashboard">Kembali ke Dashboard</a>
+
+</body>
+</html>

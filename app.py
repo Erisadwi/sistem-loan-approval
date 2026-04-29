@@ -5,6 +5,7 @@ from controllers.form_controller import form_bp
 from controllers.case_controller import case
 from controllers.hasilAnalisis_controller import hasil_bp
 from controllers.review_controller import review_bp
+from controllers.profil_controller import profil_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,6 +15,7 @@ app.register_blueprint(form_bp, url_prefix='/form')
 app.register_blueprint(case)
 app.register_blueprint(hasil_bp)
 app.register_blueprint(review_bp, url_prefix='/review')
+app.register_blueprint(profil_bp, url_prefix='/profil')
 
 @app.route("/review-ui")
 def review_ui():
