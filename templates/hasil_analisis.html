@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hasil Analisis</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .approve {
+            color: green;
+            font-weight: bold;
+        }
+
+        .reject {
+            color: red;
+            font-weight: bold;
+        }
+
+        .result {
+            font-size: 22px;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .result.approve {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .result.reject {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Hasil Analisis (Retrieve + Reuse)</h2>
+
+    <!-- ===================== -->
+    <!-- RANKING SIMILARITY -->
+    <!-- ===================== -->
+    <div class="card">
+        <h3>Ranking Similarity</h3>
+
+        <table>
+            <tr>
+                <th>ID Kasus</th>
+                <th>Distance</th>
+                <th>Similarity</th>
+                <th>Keputusan</th>
+            </tr>
+
+            {% for x in ranking %}
+            <tr>
+                <td>{{ x.id_kasus }}</td>
+                <td>{{ x.distance }}</td>
+                <td>{{ x.similarity }}</td>
+                <td class="{{ 'approve' if x.keputusan=='Approve' else 'reject' }}">
+                    {{ x.keputusan }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- ===================== -->
+    <!-- TOP K -->
+    <!-- ===================== -->
+    <div class="card">
+        <h3>Top {{ k }} Nearest Neighbor</h3>
+
+        <table>
+            <tr>
+                <th>ID Kasus</th>
+                <th>Similarity</th>
+                <th>Keputusan</th>
+            </tr>
+
+            {% for x in topk %}
+            <tr>
+                <td>{{ x.id_kasus }}</td>
+                <td>{{ x.similarity }}</td>
+                <td class="{{ 'approve' if x.keputusan=='Approve' else 'reject' }}">
+                    {{ x.keputusan }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- ===================== -->
+    <!-- MDM (JIKA TIE) -->
+    <!-- ===================== -->
+    {% if mdm_approve %}
+    <div class="card">
+        <h3>Perhitungan MDM (Tie Break)</h3>
+
+        <p>MDM Approve: <strong>{{ mdm_approve }}</strong></p>
+        <p>MDM Reject: <strong>{{ mdm_reject }}</strong></p>
+
+        <p><i>Keputusan diambil berdasarkan nilai MDM terbesar</i></p>
+    </div>
+    {% endif %}
+
+    <!-- ===================== -->
+    <!-- HASIL AKHIR -->
+    <!-- ===================== -->
+    <div class="card">
+        <h3>Hasil Akhir</h3>
+
+        <div class="result {{ 'approve' if keputusan=='Approve' else 'reject' }}">
+            {{ keputusan }}
+        </div>
+    </div>
+
+</body>
+</html>

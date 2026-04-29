@@ -40,6 +40,6 @@ def form_pengajuan():
         cursor.close()
         conn.close()
 
-        return redirect('/dashboard')
+        return redirect('/hasil_analisis')
 
     return render_template('form_pengajuan.html')

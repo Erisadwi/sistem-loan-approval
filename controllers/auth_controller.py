@@ -44,6 +44,15 @@ def dashboard():
         return redirect('/')
     return render_template('dashboard.html', nama=session['nama'])
 
+@auth.route("/me")
+def me():
+    if 'user' not in session:
+        return {"message":"Belum login"}, 401
+
+    return {
+        "id_user": session['user'],
+        "nama": session['nama']
+    }
 
 @auth.route('/logout')
 def logout():
