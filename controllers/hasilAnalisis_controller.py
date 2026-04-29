@@ -54,7 +54,7 @@ def hasil():
         return redirect('/')
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(dictionary=True, buffered=True)
 
     # =========================
     # 1. AMBIL KASUS BARU (FORM)
@@ -102,6 +102,7 @@ def hasil():
     # =========================
     # 5. HITUNG DISTANCE
     # =========================
+    matriks = []
     for k in kasus_lama:
 
         lama_norm = [
@@ -113,12 +114,22 @@ def hasil():
             norm(k['cibil_score'], 300, 861)
         ]
 
+        matriks.append({
+            'id_kasus': k['loan_id'],
+            'no_of_dependents': round(lama_norm[0], 4),
+            'self_employed': lama_norm[1],
+            'income_annum': round(lama_norm[2], 4),
+            'loan_amount': round(lama_norm[3], 4),
+            'loan_term': round(lama_norm[4], 4),
+            'cibil_score': round(lama_norm[5], 4)
+        })
+
         d = distance(baru_norm, lama_norm)
 
         hasil.append({
             'id_kasus': k['loan_id'],
             'distance': d,
-            'keputusan': k['loan_status']  # approved / rejecteded
+            'keputusan': k['loan_status']  # approved / rejected
         })
 
     # =========================
@@ -148,8 +159,8 @@ def hasil():
 
     topk = hasil[:k_val]
 
-    approved = sum(1 for x in topk if x['keputusan'] == "approved")
-    rejected = sum(1 for x in topk if x['keputusan'] == "rejecteded")
+    approved = sum(1 for x in topk if x['keputusan'] == "Approved")
+    rejected = sum(1 for x in topk if x['keputusan'] == "Rejected")
 
     mdm_approved = None
     mdm_rejected = None
@@ -158,10 +169,10 @@ def hasil():
     # 9. KEPUTUSAN
     # =========================
     if approved > rejected:
-        keputusan = "approved"
+        keputusan = "Approved"
 
     elif rejected > approved:
-        keputusan = "rejected"
+        keputusan = "Rejected"
 
     else:
         # ===== TIE → MDM =====
@@ -175,7 +186,7 @@ def hasil():
         if mdm_approved < mdm_rejected:
             keputusan = "Approve"
         else:
-            keputusan = "rejected"
+            keputusan = "Rejected"
 
     # =========================
     # 10. SIMPAN KE DATABASE
@@ -195,13 +206,17 @@ def hasil():
     # =========================
     return render_template(
         'hasil_analisis.html',
+        matriks=matriks,
         ranking=hasil,
         topk=topk,
         keputusan=keputusan,
         k=k_val,
+        n=n,
         kategori_cibil=kategori,
         nilai_sedang=sedang,
         nilai_tinggi=tinggi,
+        approved=approved,        
+        rejected=rejected,       
         mdm_approved=round(mdm_approved, 4) if mdm_approved else None,
-        mdm_rejecteded=round(mdm_rejected, 4) if mdm_rejected else None
+        mdm_rejected=round(mdm_rejected, 4) if mdm_rejected else None
     )

@@ -67,17 +67,90 @@
             background: #f8d7da;
             color: #721c24;
         }
+
+        .card.k-info {
+            background: #eef5ff;
+            border-left: 5px solid #007bff;
+        }
+
     </style>
 </head>
 <body>
 
     <h2>Hasil Analisis (Retrieve + Reuse)</h2>
 
-    <!-- ===================== -->
-    <!-- RANKING SIMILARITY -->
-    <!-- ===================== -->
+    <div class="card">
+    <h3>Matriks Normalisasi</h3>
+
+    <table>
+        <tr>
+            <th>No</th>
+            <th>ID Kasus</th>
+            <th>Dependents</th>
+            <th>Self Employed</th>
+            <th>Income Annum</th>
+            <th>Loan Amount</th>
+            <th>Loan Term</th>
+            <th>Cibil Score</th>
+        </tr>
+
+        {% for x in matriks %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ x.id_kasus }}</td>
+            <td>{{ x.no_of_dependents }}</td>
+            <td>{{ x.self_employed }}</td>
+            <td>{{ x.income_annum }}</td>
+            <td>{{ x.loan_amount }}</td>
+            <td>{{ x.loan_term }}</td>
+            <td>{{ x.cibil_score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
     <div class="card">
         <h3>Ranking Similarity</h3>
+
+        <table>
+            <tr>
+                <th>No</th>
+                <th>ID Kasus</th>
+                <th>Distance</th>
+                <th>Similarity</th>
+                <th>Keputusan</th>
+            </tr>
+
+            {% for x in ranking %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ x.id_kasus }}</td>
+                <td>{{ x.distance }}</td>
+                <td>{{ x.similarity }}</td>
+                <td class="{{ 'approve' if x.keputusan=='Approved' else 'reject' }}">
+                    {{ x.keputusan }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="card k-info">
+    <h3>Menentukan Nilai K</h3>
+
+    <p>Jumlah data yakni <b>{{ n }}</b></p>
+
+    <p>
+        K = √{{ n }} = {{ "%.2f"|format(n**0.5) }} ≈ <b>{{ k }}</b>
+    </p>
+
+    <p>
+        Ambil <b>{{ k }}</b> tetangga terdekat
+    </p>
+</div>
+
+    <div class="card">
+        <h3>Top {{ k }} Nearest Neighbor</h3>
 
         <table>
             <tr>
@@ -87,12 +160,12 @@
                 <th>Keputusan</th>
             </tr>
 
-            {% for x in ranking %}
+            {% for x in topk %}
             <tr>
                 <td>{{ x.id_kasus }}</td>
                 <td>{{ x.distance }}</td>
                 <td>{{ x.similarity }}</td>
-                <td class="{{ 'approve' if x.keputusan=='Approve' else 'reject' }}">
+                <td class="{{ 'approve' if x.keputusan=='Approved' else 'reject' }}">
                     {{ x.keputusan }}
                 </td>
             </tr>
@@ -100,34 +173,6 @@
         </table>
     </div>
 
-    <!-- ===================== -->
-    <!-- TOP K -->
-    <!-- ===================== -->
-    <div class="card">
-        <h3>Top {{ k }} Nearest Neighbor</h3>
-
-        <table>
-            <tr>
-                <th>ID Kasus</th>
-                <th>Similarity</th>
-                <th>Keputusan</th>
-            </tr>
-
-            {% for x in topk %}
-            <tr>
-                <td>{{ x.id_kasus }}</td>
-                <td>{{ x.similarity }}</td>
-                <td class="{{ 'approve' if x.keputusan=='Approve' else 'reject' }}">
-                    {{ x.keputusan }}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <!-- ===================== -->
-    <!-- MDM (JIKA TIE) -->
-    <!-- ===================== -->
     {% if mdm_approve %}
     <div class="card">
         <h3>Perhitungan MDM (Tie Break)</h3>
@@ -139,16 +184,15 @@
     </div>
     {% endif %}
 
-    <!-- ===================== -->
-    <!-- HASIL AKHIR -->
-    <!-- ===================== -->
     <div class="card">
         <h3>Hasil Akhir</h3>
 
-        <div class="result {{ 'approve' if keputusan=='Approve' else 'reject' }}">
+        <p><b>Total Approved:</b> {{ approved }}</p>
+        <p><b>Total Rejected:</b> {{ rejected }}</p>
+
+        <div class="result {{ 'approve' if keputusan=='Approved' else 'reject' }}">
             {{ keputusan }}
         </div>
-    </div>
 
 </body>
 </html>
