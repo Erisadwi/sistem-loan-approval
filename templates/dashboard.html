@@ -5,15 +5,268 @@
 </head>
 <body>
 
-    <h2>Dashboard</h2>
+    <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <p>Selamat datang, {{ nama }}</p>
+  <title>Dashboard Deciloan</title>
 
-    <a href="/form">Ajukan Loan</a> |
-    <a href="/logout">Logout</a> |
-    <a href="/review-ui">Review</a> |
-    <a href="/profil">Profil</a> |
-    
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- FONT GOOGLE -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- =========================
+       HERO SECTION
+  ==========================-->
+  <section class="hero">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+      <!-- LOGO -->
+      <div class="logo">
+        <img src="logo.png" alt="logo">
+        <h1>Deciloan</h1>
+      </div>
+
+      <!-- MENU -->
+      <ul class="nav-menu">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Pengajuan</a></li>
+        <li><a href="#">Review</a></li>
+        <li><a href="#">Basis kasus</a></li>
+        <li><a href="#">Riwayat</a></li>
+      </ul>
+
+      <!-- PROFILE -->
+      <div class="profile">
+        ☺
+      </div>
+
+    </nav>
+
+    <!-- HERO CONTENT -->
+    <div class="hero-content">
+
+      <h1>
+        Selamat Datang <br>
+        di Deciloan
+      </h1>
+
+      <p>
+        Sistem Pendukung Keputusan Kredit berbasis web
+      </p>
+
+      <!-- BUTTON -->
+      <div class="button-group">
+
+        <button class="btn btn-primary">
+          + Pengajuan Kredit
+        </button>
+
+        <button class="btn btn-secondary">
+          Review
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================
+       DASHBOARD
+  ==========================-->
+  <section class="dashboard">
+
+    <!-- CARD WRAPPER -->
+    <div class="card-wrapper">
+
+      <!-- CARD 1 -->
+      <div class="stat-card">
+
+        <div class="window-top">
+
+          <div class="window-left">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="square"></div>
+          </div>
+
+          <div class="window-bar"></div>
+
+        </div>
+
+        <div class="card-content">
+          <h1>100</h1>
+          <p>Total</p>
+        </div>
+
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="stat-card">
+
+        <div class="window-top">
+
+          <div class="window-left">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="square"></div>
+          </div>
+
+          <div class="window-bar"></div>
+
+        </div>
+
+        <div class="card-content">
+          <h1>80</h1>
+          <p>Diterima</p>
+        </div>
+
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="stat-card">
+
+        <div class="window-top">
+
+          <div class="window-left">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="square"></div>
+          </div>
+
+          <div class="window-bar"></div>
+
+        </div>
+
+        <div class="card-content">
+          <h1>10</h1>
+          <p>Ditolak</p>
+        </div>
+
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="stat-card">
+
+        <div class="window-top">
+
+          <div class="window-left">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="square"></div>
+          </div>
+
+          <div class="window-bar"></div>
+
+        </div>
+
+        <div class="card-content">
+          <h1>10</h1>
+          <p>Menunggu</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CHART SECTION -->
+    <div class="chart-section">
+
+      <div class="chart-container">
+
+        <!-- TITLE -->
+        <div class="chart-title">
+          <h1>Presentase Per-bulan</h1>
+        </div>
+
+        <!-- PIE AREA -->
+        <div class="pie-area">
+
+          <div class="label jan">
+            Januari
+            <div class="line"></div>
+          </div>
+
+          <div class="label feb">
+            Februari
+            <div class="line"></div>
+          </div>
+
+          <div class="label mar">
+            Maret
+            <div class="line"></div>
+          </div>
+
+          <div class="label apr">
+            April
+            <div class="line"></div>
+          </div>
+
+          <!-- PIE -->
+          <div class="pie-chart"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================
+       FOOTER
+  ==========================-->
+  <footer>
+
+    <!-- FOOTER LOGO -->
+    <div class="footer-logo">
+
+      <img src="logo.png" alt="logo">
+      <h1>Deciloan</h1>
+
+    </div>
+
+    <!-- FOOTER RIGHT -->
+    <div class="footer-right">
+
+      <!-- CONTACT -->
+      <div class="footer-box">
+
+        <h3>Hubungi kami:</h3>
+
+        <p>Admin :</p>
+        <p>📞 0812-3456-7890</p>
+        <p>📞 0812-3456-7890</p>
+        <p>📞 0812-3456-7890</p>
+
+      </div>
+
+      <!-- OPERATION -->
+      <div class="footer-box">
+
+        <h3>Jam Operasional:</h3>
+
+        <p>Senin - Jumat : 08.00 - 16.00</p>
+        <p>Minggu & Hari Libur Nasional : Tutup</p>
+
+      </div>
+
+    </div>
+
+  </footer>
 
 </body>
 </html>
+
+
