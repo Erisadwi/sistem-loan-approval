@@ -98,13 +98,25 @@ async function revise(id){
 }
 
 async function retain(id){
-    const res=await fetch(`${API}/review/retain/${id}`,{
-        method:"POST",
-        credentials:"include"
-    });
-    const data=await res.json();
-    alert("Berhasil jadi kasus baru: "+data.loan_id_baru);
-    loadData();
+    try{
+        const res = await fetch(`${API}/review/retain/${id}`,{
+            method:"POST",
+            credentials:"include"
+        });
+
+        const text = await res.text();
+
+        if(!res.ok){
+            throw new Error(text);
+        }
+
+        const data = JSON.parse(text);
+        alert("Berhasil jadi kasus baru: "+data.loan_id_baru);
+        loadData();
+
+    }catch(err){
+        alert("Retain gagal: " + err.message);
+    }
 }
 </script>
 

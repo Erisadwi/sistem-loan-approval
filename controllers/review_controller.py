@@ -14,7 +14,6 @@ def get_db():
 @review_bp.route("/pending", methods=["GET"])
 def get_data_review():
 
-    # 🔐 wajib login dulu
     if "user" not in session:
         return jsonify({"message":"Belum login"}),401
 
@@ -23,16 +22,22 @@ def get_data_review():
 
     query = """
     SELECT 
-        r.id_pengajuan,
-        r.keputusan,
-        r.catatan,
-        r.tanggal_review,
+        p.id_pengajuan,
+        p.no_of_dependents,
+        p.self_employed,
         p.income_annum,
         p.loan_amount,
-        p.cibil_score
-    FROM review_analis r
-    JOIN pengajuan p ON r.id_pengajuan = p.id_pengajuan
-    ORDER BY r.tanggal_review DESC
+        p.loan_term,
+        p.cibil_score,
+        p.status_proses,
+        r.keputusan,
+        r.catatan,
+        r.tanggal_review
+    FROM pengajuan p
+    LEFT JOIN review_analis r 
+        ON p.id_pengajuan = r.id_pengajuan
+    WHERE p.status_proses IN ('MENUNGGU_REVIEW','DIREVIEW')
+    ORDER BY p.id_pengajuan DESC
     """
 
     cursor.execute(query)
@@ -54,15 +59,35 @@ def revise_keputusan(id_pengajuan):
     SET keputusan=%s, catatan=%s, tanggal_review=NOW()
     WHERE id_pengajuan=%s
     """
+
     cursor.execute(query,(keputusan,catatan,id_pengajuan))
+
+    cursor.execute("""
+        UPDATE pengajuan
+        SET status_proses='DIREVIEW'
+        WHERE id_pengajuan=%s
+    """,(id_pengajuan,))
+
     db.commit()
 
     return jsonify({"message":"Revisi berhasil"})
 
 def generate_loan_id(cursor):
-    cursor.execute("SELECT COUNT(*) FROM basis_kasus")
-    count = cursor.fetchone()[0] + 1
-    return f"LID{count:04d}"
+    cursor.execute("""
+        SELECT loan_id 
+        FROM basis_kasus 
+        ORDER BY loan_id DESC 
+        LIMIT 1
+    """)
+    last = cursor.fetchone()
+
+    if not last:
+        return "LID0001"
+
+    last_id = last["loan_id"]     
+    number = int(last_id[3:]) + 1  
+    return f"LID{number:04d}"
+
 
 @review_bp.route("/retain/<int:id_pengajuan>", methods=["POST"])
 def retain_case(id_pengajuan):
@@ -71,12 +96,14 @@ def retain_case(id_pengajuan):
 
     cursor.execute("""
     SELECT 
+        p.id_pengajuan,
         p.no_of_dependents,
         p.self_employed,
         p.income_annum,
         p.loan_amount,
         p.loan_term,
         p.cibil_score,
+        r.id_analis,
         r.keputusan
     FROM pengajuan p
     JOIN review_analis r ON p.id_pengajuan=r.id_pengajuan
@@ -84,15 +111,25 @@ def retain_case(id_pengajuan):
     """,(id_pengajuan,))
     
     kasus = cursor.fetchone()
+
+
+    if not kasus:
+        return jsonify({
+            "error":"Pengajuan belum direview analis!"
+        }), 400
+
     loan_id = generate_loan_id(cursor)
 
     cursor.execute("""
     INSERT INTO basis_kasus
-    (loan_id,no_of_dependents,self_employed,income_annum,
-     loan_amount,loan_term,cibil_score,loan_status)
-    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+    (loan_id, id_pengajuan, id_analis,
+     no_of_dependents, self_employed, income_annum,
+     loan_amount, loan_term, cibil_score, loan_status)
+    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
     """,(
         loan_id,
+        kasus["id_pengajuan"],   
+        kasus["id_analis"],      
         kasus["no_of_dependents"],
         kasus["self_employed"],
         kasus["income_annum"],
@@ -102,5 +139,14 @@ def retain_case(id_pengajuan):
         kasus["keputusan"]
     ))
 
+    cursor.execute("""
+        UPDATE pengajuan
+        SET status_proses='SELESAI'
+        WHERE id_pengajuan=%s
+    """,(id_pengajuan,))
+    
     db.commit()
-    return jsonify({"loan_id_baru":loan_id})
+    return jsonify({
+        "message": "Kasus berhasil disimpan ke basis kasus",
+        "loan_id_baru": loan_id
+    })

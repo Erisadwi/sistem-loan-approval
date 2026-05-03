@@ -29,7 +29,7 @@ def case_base():
             loan_status,
             tanggal_masuk
         FROM basis_kasus
-        ORDER BY tanggal_masuk DESC
+        ORDER BY loan_id DESC
         LIMIT %s OFFSET %s
     """
     
