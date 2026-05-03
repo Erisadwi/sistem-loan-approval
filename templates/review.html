@@ -76,6 +76,7 @@ async function loadData(){
             </td>
 
             <td>
+                <button class="btn btn-info btn-sm" onclick="detail(${row.id_pengajuan})">Detail</button>
                 <button class="btn btn-warning btn-sm" onclick="revise(${row.id_pengajuan})">Revise</button>
                 <button class="btn btn-success btn-sm" onclick="retain(${row.id_pengajuan})">Retain</button>
             </td>
@@ -117,6 +118,10 @@ async function retain(id){
     }catch(err){
         alert("Retain gagal: " + err.message);
     }
+}
+
+function detail(id){
+    window.location.href = `/hasil_analisis?id=${id}`;
 }
 </script>
 
