@@ -1,6 +1,6 @@
-/* =========================
-   RESET
-=========================*/
+body{
+    background:red !important;
+}
 *{
   margin:0;
   padding:0;
