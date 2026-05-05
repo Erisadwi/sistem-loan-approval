@@ -1,0 +1,388 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  background:#f3f3f3;
+  overflow-x:hidden;
+}
+
+/* =========================
+   GLOBAL
+=========================*/
+a{
+  text-decoration:none;
+  color:black;
+}
+
+ul{
+  list-style:none;
+}
+
+/* =========================
+   HERO SECTION
+=========================*/
+.hero{
+  width:100%;
+  min-height:140vh;
+
+  background:
+  linear-gradient(
+    120deg,
+    #f8ece5 10%,
+    #f7dce5 45%,
+    #cfd8f1 75%,
+    #a8d8ef 100%
+  );
+
+  padding-bottom:100px;
+}
+
+/* =========================
+   NAVBAR
+=========================*/
+.navbar{
+  width:100%;
+  height:100px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:20px 80px;
+}
+
+/* =========================
+   MENU
+=========================*/
+.nav-menu{
+  display:flex;
+  gap:50px;
+  align-items:center;
+}
+
+.nav-menu a{
+  font-size:18px;
+  font-weight:500;
+  transition:0.3s;
+}
+
+.nav-menu a:hover{
+  color:#ff4f9b;
+}
+
+/* =========================
+   LOGO
+=========================*/
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo img{
+  width:45px;
+}
+
+.logo h1{
+  font-size:28px;
+  font-weight:700;
+}
+
+/* =========================
+   PROFILE
+=========================*/
+.profile{
+  width:45px;
+  height:45px;
+
+  overflow:hidden;
+
+  border:0.5px solid #ececec;
+  border-radius:50%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  cursor:pointer;
+}
+
+.profile img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+/* =========================
+   HERO CONTENT
+=========================*/
+.hero-content{
+  width:100%;
+  padding:70px 90px 40px;
+}
+
+.hero-content h1{
+  font-size:45px;
+  font-weight:800;
+}
+
+.hero-content p{
+  margin-top:10px;
+  font-size:18px;
+  letter-spacing:2px;
+}
+
+/* =========================
+   HISTORY SECTION
+=========================*/
+.history-section{
+  width:100%;
+  padding:0 80px;
+}
+
+/* =========================
+   TABLE CONTAINER
+=========================*/
+.table-container{
+  width:100%;
+
+  background:white;
+
+  border-radius:30px;
+
+  padding:40px;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
+  border:2px solid rgba(255,255,255,0.5);
+
+  backdrop-filter:blur(10px);
+}
+
+/* =========================
+   TABLE HEADER
+=========================*/
+.table-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:30px;
+
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.table-header h2{
+  font-size:30px;
+  font-weight:700;
+}
+
+.table-header input{
+  width:280px;
+  height:50px;
+
+  border:none;
+  outline:none;
+
+  background:#f3f3f3;
+
+  border-radius:15px;
+
+  padding:0 20px;
+
+  font-size:15px;
+}
+
+/* =========================
+   TABLE
+=========================*/
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+thead{
+  background:#f6cad8;
+}
+
+thead th{
+  padding:20px;
+  text-align:left;
+  font-size:16px;
+}
+
+tbody td{
+  padding:20px;
+  border-bottom:1px solid #ececec;
+  font-size:15px;
+}
+
+tbody tr{
+  transition:0.3s;
+}
+
+tbody tr:hover{
+  background:#fafafa;
+}
+
+/* =========================
+   FOOTER
+=========================*/
+footer{
+  width:100%;
+  min-height:200px;
+
+  background:#f1f1f1;
+
+  border-top:2px solid #ccc;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  padding:20px 70px;
+
+  flex-wrap:wrap;
+  gap:40px;
+}
+
+/* =========================
+   FOOTER LOGO
+=========================*/
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.footer-logo img{
+  width:45px;
+}
+
+.footer-logo h1{
+  font-size:32px;
+  font-weight:700;
+}
+
+/* =========================
+   FOOTER RIGHT
+=========================*/
+.footer-right{
+  display:flex;
+  gap:80px;
+  flex-wrap:wrap;
+}
+
+.footer-box h3{
+  margin-bottom:12px;
+  font-size:18px;
+}
+
+.footer-box p{
+  margin-bottom:8px;
+  font-size:12px;
+}
+
+/* =========================
+   FOOTER BOTTOM
+=========================*/
+.footer-bottom{
+  width:100%;
+
+  background:#dcdcdc;
+
+  padding:2px 0;
+
+  text-align:center;
+
+  border-top:1px solid #bdbdbd;
+}
+
+.footer-bottom p{
+  font-size:10px;
+  color:#444;
+  letter-spacing:1px;
+}
+
+/* =========================
+   RESPONSIVE
+=========================*/
+@media(max-width:900px){
+
+  .navbar{
+    flex-direction:column;
+    height:auto;
+    gap:20px;
+    padding:20px;
+  }
+
+  .hero{
+    min-height:auto;
+    padding-bottom:80px;
+  }
+
+  .hero-content{
+    padding:40px;
+  }
+
+  .hero-content h1{
+    font-size:45px;
+  }
+
+  .history-section{
+    padding:0 30px;
+  }
+
+  .table-container{
+    padding:25px;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .nav-menu{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+  }
+
+  .hero-content h1{
+    font-size:38px;
+  }
+
+  .hero-content p{
+    font-size:15px;
+    letter-spacing:1px;
+  }
+
+  .table-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .table-header h2{
+    font-size:28px;
+  }
+
+  .table-header input{
+    width:100%;
+  }
+
+  thead th,
+  tbody td{
+    padding:15px;
+    font-size:14px;
+  }
+
+}
