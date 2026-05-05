@@ -73,6 +73,40 @@
             border-left: 5px solid #007bff;
         }
 
+        .btn-group-kanan {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-review {
+            background: #007bff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-review:hover {
+            background: #5a6268;
+        }
+
+        .btn-dashboard {
+            background: #6c757d;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-dashboard:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -97,7 +131,7 @@
         {% for x in matriks %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td>{{ x.id_kasus }}</td>
+            <td>{{ x.id_pengajuan }}</td>
             <td>{{ x.no_of_dependents }}</td>
             <td>{{ x.self_employed }}</td>
             <td>{{ x.income_annum }}</td>
@@ -108,32 +142,6 @@
         {% endfor %}
     </table>
 </div>
-
-    <div class="card">
-        <h3>Ranking Similarity</h3>
-
-        <table>
-            <tr>
-                <th>No</th>
-                <th>ID Kasus</th>
-                <th>Distance</th>
-                <th>Similarity</th>
-                <th>Keputusan</th>
-            </tr>
-
-            {% for x in ranking %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ x.id_kasus }}</td>
-                <td>{{ x.distance }}</td>
-                <td>{{ x.similarity }}</td>
-                <td class="{{ 'approve' if x.keputusan=='Approved' else 'reject' }}">
-                    {{ x.keputusan }}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
 
     <div class="card k-info">
     <h3>Menentukan Nilai K</h3>
@@ -173,12 +181,12 @@
         </table>
     </div>
 
-    {% if mdm_approve %}
+    {% if mdm_approved %}
     <div class="card">
         <h3>Perhitungan MDM (Tie Break)</h3>
 
-        <p>MDM Approve: <strong>{{ mdm_approve }}</strong></p>
-        <p>MDM Reject: <strong>{{ mdm_reject }}</strong></p>
+        <p>MDM Approve: <strong>{{ mdm_approved }}</strong></p>
+        <p>MDM Reject: <strong>{{ mdm_rejected }}</strong></p>
 
         <p><i>Keputusan diambil berdasarkan nilai MDM terbesar</i></p>
     </div>
@@ -193,6 +201,12 @@
         <div class="result {{ 'approve' if keputusan=='Approved' else 'reject' }}">
             {{ keputusan }}
         </div>
+
+        <div class="btn-group-kanan">
+            <a href="/review-ui" class="btn-review">Review</a>
+            <a href="/dashboard" class="btn-dashboard">Dashboard</a>
+            </div>
+    </div>
 
 </body>
 </html>
