@@ -47,6 +47,12 @@ def get_data_review():
 
 @review_bp.route("/revise/<int:id_pengajuan>", methods=["PUT"])
 def revise_keputusan(id_pengajuan):
+
+    if "user" not in session:
+        return jsonify({"message":"Belum login"}),401
+
+    id_analis = session["user"]
+
     db = get_db()
     cursor = db.cursor()
 
@@ -55,12 +61,16 @@ def revise_keputusan(id_pengajuan):
     catatan = data.get("catatan","")
 
     query = """
-    UPDATE review_analis
-    SET keputusan=%s, catatan=%s, tanggal_review=NOW()
-    WHERE id_pengajuan=%s
+    INSERT INTO review_analis (id_pengajuan, id_analis, keputusan, catatan, tanggal_review)
+    VALUES (%s,%s,%s,%s,NOW())
+    ON DUPLICATE KEY UPDATE
+        id_analis = VALUES(id_analis),
+        keputusan = VALUES(keputusan),
+        catatan = VALUES(catatan),
+        tanggal_review = NOW()
     """
 
-    cursor.execute(query,(keputusan,catatan,id_pengajuan))
+    cursor.execute(query,(id_pengajuan,id_analis,keputusan,catatan))
 
     cursor.execute("""
         UPDATE pengajuan
@@ -69,7 +79,6 @@ def revise_keputusan(id_pengajuan):
     """,(id_pengajuan,))
 
     db.commit()
-
     return jsonify({"message":"Revisi berhasil"})
 
 def generate_loan_id(cursor):

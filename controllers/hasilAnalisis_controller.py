@@ -189,12 +189,21 @@ def hasil():
             keputusan = "Rejected"
 
     # =========================
-    # 10. SIMPAN KE DATABASE
+    # 10. CEK APAKAH SUDAH PERNAH DIREVIEW
     # =========================
     cursor.execute("""
-        INSERT INTO review_analis (id_pengajuan, keputusan)
-        VALUES (%s, %s)
-    """, (baru['id_pengajuan'], keputusan))
+        SELECT id_review FROM review_analis
+        WHERE id_pengajuan=%s
+    """, (baru['id_pengajuan'],))
+
+    sudah_ada = cursor.fetchone()
+
+    # hanya insert jika BELUM ADA
+    if not sudah_ada:
+        cursor.execute("""
+            INSERT INTO review_analis (id_pengajuan, keputusan)
+            VALUES (%s, %s)
+        """, (baru['id_pengajuan'], keputusan))
 
     conn.commit()
 

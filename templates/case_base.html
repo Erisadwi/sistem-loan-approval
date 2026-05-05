@@ -128,5 +128,26 @@
     {% endif %}
 
 </div>
+<script>
+window.onload = async () => {
+    try{
+        const res = await fetch(`/me`, {
+            credentials:"include"
+        });
+
+        if(res.status !== 200){
+            alert("Silakan login dulu!");
+            window.location.href="/";
+            return;
+        }
+
+        console.log("Login OK");
+
+    }catch(err){
+        alert("Server tidak terhubung!");
+        window.location.href="/";
+    }
+};
+</script>
 </body>
 </html>

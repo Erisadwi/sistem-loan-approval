@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, url_for, jsonify
 from utils.db import get_db_connection
 
 case = Blueprint('case', __name__)
 
 @case.route('/case_base')
 def case_base():
+
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
