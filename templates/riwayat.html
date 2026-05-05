@@ -7,7 +7,7 @@
   <title>Riwayat Deciloan</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="riwayat.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/riwayat.css') }}">
 
   <!-- GOOGLE FONT -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
 
       <!-- LOGO -->
       <div class="logo">
-        <img src="crypto-wallet.png" alt="logo">
+        <img src="{{ url_for('static', filename='images/crypto-wallet.png') }}" alt="logo">
         <h1>Deciloan</h1>
       </div>
 
@@ -44,7 +44,7 @@
 
       <!-- PROFILE -->
       <div class="profile">
-        <img src="profile.png" alt="profile">
+        <img src="{{ url_for('static', filename='images/profile.png') }}" alt="profile">
       </div>
 
     </nav>
@@ -156,7 +156,7 @@
     <!-- FOOTER LOGO -->
     <div class="footer-logo">
 
-      <img src="crypto-wallet.png" alt="logo">
+      <img src="{{ url_for('static', filename='images/crypto-wallet.png') }}" alt="logo">
       <h1>Deciloan</h1>
 
     </div>
