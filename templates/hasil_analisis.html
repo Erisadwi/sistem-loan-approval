@@ -146,12 +146,16 @@
     <div class="card k-info">
     <h3>Menentukan Nilai K</h3>
 
-    <p>Jumlah data yakni <b>{{ n }}</b></p>
+    <p>
+    Data pengajuan termasuk ke dalam 
+    <b>{{ cluster_label }}</b> 
+    dengan jumlah data sebanyak 
+    <b>{{ n_cluster }}</b>
+</p>
 
     <p>
-        K = √{{ n }} = {{ "%.2f"|format(n**0.5) }} ≈ <b>{{ k }}</b>
+        K = √{{ n_cluster }} = {{ "%.2f"|format(n_cluster**0.5) }} ≈ <b>{{ k }}</b>
     </p>
-
     <p>
         Ambil <b>{{ k }}</b> tetangga terdekat
     </p>
