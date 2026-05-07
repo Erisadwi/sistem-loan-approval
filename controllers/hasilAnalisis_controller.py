@@ -116,16 +116,25 @@ def hasil():
     # =========================
     # DATA BARU
     # =========================
-    cursor.execute("""
-        SELECT * FROM pengajuan
-        WHERE id_user=%s
-        ORDER BY id_pengajuan DESC
-        LIMIT 1
-    """, (session['user'],))
+    id_pengajuan = request.args.get('id')
+
+    if id_pengajuan:
+        cursor.execute("""
+            SELECT * FROM pengajuan
+            WHERE id_pengajuan=%s
+        """, (id_pengajuan,))
+    else:
+        cursor.execute("""
+            SELECT * FROM pengajuan
+            WHERE id_user=%s
+            ORDER BY id_pengajuan DESC
+            LIMIT 1
+        """, (session['user'],))
 
     baru = cursor.fetchone()
+
     if not baru:
-        return "Belum ada data"
+        return "Belum ada data pengajuan"
 
     # =========================
     # MIN MAX
