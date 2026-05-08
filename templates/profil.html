@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,7 @@ body{
     );
 }
 
-/* BACKGROUND GLOW */
+/* BACKGROUND */
 body::before,
 body::after{
     content:'';
@@ -48,7 +48,6 @@ body::after{
 body::before{
     width:450px;
     height:450px;
-
     background:#f8c6ca;
 
     top:-120px;
@@ -58,7 +57,6 @@ body::before{
 body::after{
     width:450px;
     height:450px;
-
     background:#b3d8f5;
 
     bottom:-120px;
@@ -94,7 +92,7 @@ body::after{
     right:15%;
 }
 
-/* MAIN CARD */
+/* CARD */
 .profile-card{
     width:420px;
 
@@ -109,7 +107,6 @@ body::after{
         rgba(255,255,255,0.10);
 
     backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
 
     border:
         1px solid rgba(255,255,255,0.18);
@@ -123,7 +120,7 @@ body::after{
     color:white;
 }
 
-/* PHOTO */
+/* FOTO */
 .profile-photo{
     width:130px;
     height:130px;
@@ -162,33 +159,22 @@ body::after{
     object-fit:cover;
 
     border:4px solid rgba(255,255,255,0.35);
-
-    box-shadow:
-        0 0 25px rgba(255,255,255,0.2);
 }
 
-/* NAME */
+/* TITLE */
 .profile-card h2{
     font-size:32px;
-    font-weight:600;
-
     margin-bottom:8px;
-
-    text-shadow:
-        0 2px 10px rgba(0,0,0,0.15);
 }
 
-/* SUBTITLE */
 .subtitle{
     font-size:14px;
-
-    color:
-        rgba(255,255,255,0.75);
+    color:rgba(255,255,255,0.75);
 
     margin-bottom:30px;
 }
 
-/* INFO BOX */
+/* INFO */
 .info-box{
     background:
         rgba(255,255,255,0.08);
@@ -205,7 +191,6 @@ body::after{
     text-align:left;
 }
 
-/* INFO ITEM */
 .info-item{
     margin-bottom:18px;
 }
@@ -225,8 +210,6 @@ body::after{
 
 .info-value{
     font-size:15px;
-
-    color:white;
 }
 
 /* BUTTON */
@@ -254,9 +237,6 @@ body::after{
 
     transition:0.3s;
 
-    box-shadow:
-        0 10px 30px rgba(223,207,251,0.35);
-
     margin-bottom:12px;
 }
 
@@ -264,24 +244,18 @@ body::after{
     transform:
         translateY(-3px)
         scale(1.02);
-
-    box-shadow:
-        0 15px 40px rgba(248,198,202,0.4);
 }
 
 /* LOGOUT */
 .logout-btn{
     width:100%;
 
-    display:block;
-
     padding:14px;
 
+    border:none;
     border-radius:18px;
 
-    text-decoration:none;
-
-    color:white;
+    cursor:pointer;
 
     background:
         rgba(255,255,255,0.10);
@@ -289,15 +263,32 @@ body::after{
     border:
         1px solid rgba(255,255,255,0.12);
 
+    color:white;
+
     transition:0.3s;
 }
 
 .logout-btn:hover{
     background:
         rgba(255,255,255,0.18);
+}
 
-    transform:
-        translateY(-2px);
+/* DELETE */
+.delete-account{
+    margin-top:18px;
+
+    font-size:13px;
+
+    color:
+        rgba(255,255,255,0.65);
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.delete-account:hover{
+    color:#ffd0d0;
 }
 
 /* MODAL */
@@ -317,7 +308,9 @@ body::after{
     z-index:999;
 }
 
-.modal-content{
+/* MODAL CONTENT */
+.modal-content,
+.popup-box{
     width:400px;
 
     padding:35px;
@@ -333,10 +326,13 @@ body::after{
         1px solid rgba(255,255,255,0.18);
 
     color:white;
+
+    animation:popupShow 0.3s ease;
 }
 
 /* MODAL TITLE */
-.modal-content h3{
+.modal-content h3,
+.popup-box h3{
     margin-bottom:25px;
     text-align:center;
 
@@ -369,23 +365,23 @@ input:focus{
         rgba(255,255,255,0.55);
 
     transform:scale(1.02);
-
-    box-shadow:
-        0 0 0 4px rgba(179,216,245,0.25);
 }
 
 input[type="file"]{
     color:white;
 }
 
-/* MODAL BUTTONS */
-.modal-buttons{
+/* BUTTONS */
+.modal-buttons,
+.popup-buttons{
     display:flex;
     gap:10px;
 }
 
 .save-btn,
-.cancel-btn{
+.cancel-btn,
+.confirm-btn,
+.delete-btn{
     flex:1;
 
     padding:14px;
@@ -398,9 +394,15 @@ input[type="file"]{
     font-weight:600;
 
     transition:0.3s;
+
+    text-decoration:none;
+
+    text-align:center;
 }
 
-.save-btn{
+/* SAVE */
+.save-btn,
+.confirm-btn{
     background:
     linear-gradient(
         135deg,
@@ -411,6 +413,7 @@ input[type="file"]{
     color:#444;
 }
 
+/* CANCEL */
 .cancel-btn{
     background:
         rgba(255,255,255,0.12);
@@ -418,9 +421,44 @@ input[type="file"]{
     color:white;
 }
 
+
+/* HOVER */
 .save-btn:hover,
-.cancel-btn:hover{
-    transform:translateY(-2px);
+.cancel-btn:hover,
+.confirm-btn:hover,
+.delete-btn:hover{
+    transform:
+        translateY(-2px);
+}
+
+/* POPUP TEXT */
+.popup-box p{
+    font-size:15px;
+
+    line-height:1.6;
+
+    color:
+        rgba(255,255,255,0.82);
+
+    margin-bottom:25px;
+
+    text-align:center;
+}
+
+/* ANIMATION */
+@keyframes popupShow{
+
+    from{
+        opacity:0;
+        transform:
+            scale(0.8);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            scale(1);
+    }
 }
 
 /* RESPONSIVE */
@@ -431,7 +469,8 @@ input[type="file"]{
         padding:30px;
     }
 
-    .modal-content{
+    .modal-content,
+    .popup-box{
         width:92%;
     }
 }
@@ -447,7 +486,7 @@ input[type="file"]{
 <!-- PROFILE -->
 <div class="profile-card">
 
-    <!-- PHOTO -->
+    <!-- FOTO -->
     <div class="profile-photo">
 
         <img
@@ -475,9 +514,9 @@ input[type="file"]{
         </div>
 
         <div class="info-item">
-            <div class="info-label">Account Status</div>
+            <div class="info-label">Status Akun</div>
             <div class="info-value">
-                Active
+                Aktif
             </div>
         </div>
 
@@ -488,23 +527,30 @@ input[type="file"]{
         class="edit-btn"
         onclick="openModal()"
     >
-        Edit Profile
+        Edit Profil
     </button>
 
-    <a href="/logout" class="logout-btn">
+    <button
+        class="logout-btn"
+        onclick="openLogoutModal()"
+    >
         Logout
-    </a>
+    </button>
 
 </div>
 
-<!-- MODAL -->
+<!-- MODAL EDIT -->
 <div class="modal" id="modal">
 
     <div class="modal-content">
 
-        <h3>Edit Profile</h3>
+        <h3>Edit Profil</h3>
 
-        <form method="POST" enctype="multipart/form-data">
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            onsubmit="showSavePopup(event)"
+        >
 
             <input
                 type="text"
@@ -531,7 +577,7 @@ input[type="file"]{
                     type="submit"
                     class="save-btn"
                 >
-                    Save
+                    Simpan
                 </button>
 
                 <button
@@ -539,7 +585,7 @@ input[type="file"]{
                     class="cancel-btn"
                     onclick="closeModal()"
                 >
-                    Cancel
+                    Batal
                 </button>
 
             </div>
@@ -550,14 +596,92 @@ input[type="file"]{
 
 </div>
 
+<!-- MODAL LOGOUT -->
+<div class="modal" id="logoutModal">
+
+    <div class="popup-box">
+
+        <h3>Logout</h3>
+
+        <p>
+            Apakah kamu yakin ingin keluar?
+        </p>
+
+        <div class="popup-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="closeLogoutModal()"
+            >
+                Batal
+            </button>
+
+            <a href="/logout" class="confirm-btn">
+                Ya, Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- POPUP SAVE -->
+<div class="modal" id="savePopup">
+
+    <div class="popup-box">
+
+        <h3>Berhasil</h3>
+
+        <p>
+            Profil berhasil diperbarui.
+        </p>
+
+    </div>
+
+</div>
+
 <script>
 
+/* EDIT */
 function openModal(){
     document.getElementById('modal').style.display = 'flex';
 }
 
 function closeModal(){
     document.getElementById('modal').style.display = 'none';
+}
+
+/* LOGOUT */
+function openLogoutModal(){
+    document.getElementById('logoutModal').style.display = 'flex';
+}
+
+function closeLogoutModal(){
+    document.getElementById('logoutModal').style.display = 'none';
+}
+
+/* DELETE */
+function openDeleteModal(){
+    document.getElementById('deleteModal').style.display = 'flex';
+}
+
+function closeDeleteModal(){
+    document.getElementById('deleteModal').style.display = 'none';
+}
+
+/* SAVE */
+function showSavePopup(event){
+
+    event.preventDefault();
+
+    document.getElementById('savePopup').style.display = 'flex';
+
+    setTimeout(() => {
+        event.target.submit();
+    }, 1200);
 }
 
 </script>
