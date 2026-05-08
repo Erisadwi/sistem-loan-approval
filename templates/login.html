@@ -1,14 +1,414 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+
+<style>
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffdfdf,
+        #f9d8f3,
+        #e1cdef,
+        #b3d8f5
+    );
+}
+
+/* BACKGROUND GLOW */
+body::before,
+body::after{
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+}
+
+body::before{
+    width: 450px;
+    height: 450px;
+    background: #f8c6ca;
+    top: -120px;
+    left: -120px;
+}
+
+body::after{
+    width: 450px;
+    height: 450px;
+    background: #dfcffb;
+    bottom: -120px;
+    right: -120px;
+}
+
+/* EXTRA GLOW */
+.glow1,
+.glow2,
+.glow3{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+}
+
+.glow1{
+    width: 280px;
+    height: 280px;
+    background: #f8c6ca;
+    top: 15%;
+    left: 18%;
+}
+
+.glow2{
+    width: 350px;
+    height: 350px;
+    background: #b3d8f5;
+    bottom: 8%;
+    right: 12%;
+}
+
+.glow3{
+    width: 240px;
+    height: 240px;
+    background: #dfcffb;
+    top: 50%;
+    left: 45%;
+}
+
+/* MAIN WRAPPER */
+.wrapper{
+    width: 950px;
+    height: 540px;
+
+    display: flex;
+
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+    border-radius: 45px;
+
+    background: rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255,255,255,0.18);
+
+    box-shadow:
+        0 8px 32px rgba(31,38,135,0.2),
+        inset 0 0 30px rgba(255,255,255,0.08);
+}
+
+/* EXTRA GLASS LAYER */
+.wrapper::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+
+    border-radius: 45px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,0.22),
+        rgba(255,255,255,0.04)
+    );
+
+    pointer-events: none;
+}
+
+/* LEFT SIDE */
+.left{
+    flex: 1;
+    padding: 70px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    color: white;
+
+    position: relative;
+}
+
+/* TITLE */
+.left h2{
+    font-size: 56px;
+    font-weight: 600;
+
+    margin-bottom: 35px;
+
+    text-shadow:
+        0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* FORM */
+form{
+    width: 100%;
+    max-width: 420px;
+}
+
+/* INPUT GROUP */
+.input-group{
+    margin-bottom: 18px;
+}
+
+/* INPUT */
+input{
+    width: 100%;
+
+    padding: 15px 18px;
+
+    border-radius: 16px;
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+
+    background:
+        rgba(255,255,255,0.35);
+
+    backdrop-filter: blur(12px);
+
+    color: #444;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+input::placeholder{
+    color: #6d6d6d;
+}
+
+input:focus{
+    background: rgba(255,255,255,0.55);
+
+    transform: scale(1.02);
+
+    box-shadow:
+        0 0 0 4px rgba(179,216,245,0.25),
+        0 10px 30px rgba(225,205,239,0.35);
+}
+
+/* BUTTON */
+button{
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: #3f3f3f;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(223,207,251,0.95),
+        rgba(248,198,202,0.95)
+    );
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 10px 30px rgba(223,207,251,0.35);
+}
+
+button:hover{
+    transform:
+        translateY(-3px)
+        scale(1.02);
+
+    box-shadow:
+        0 15px 40px rgba(248,198,202,0.4),
+        0 0 30px rgba(223,207,251,0.45);
+}
+
+/* RIGHT SIDE */
+.right{
+    flex: 1;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: relative;
+}
+
+/* INFO BOX */
+.info-box{
+    width: 340px;
+    min-height: 180px;
+
+    padding: 30px;
+
+    border-radius: 28px;
+
+    background:
+        rgba(255,255,255,0.10);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border:
+        1px solid rgba(255,255,255,0.15);
+
+    color: white;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.08),
+        inset 0 0 15px rgba(255,255,255,0.08);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-right: 40px;
+}
+
+/* INFO TITLE */
+.info-box h3{
+    font-size: 22px;
+    font-weight: 600;
+
+    margin-bottom: 12px;
+
+    line-height: 1.4;
+
+    text-shadow:
+        0 2px 12px rgba(0,0,0,0.15);
+}
+
+/* INFO TEXT */
+.info-box p{
+    font-size: 14px;
+    line-height: 1.7;
+
+    color:
+        rgba(255,255,255,0.88);
+}
+
+/* RESPONSIVE */
+@media(max-width: 900px){
+
+    .wrapper{
+        width: 92%;
+        height: auto;
+
+        flex-direction: column;
+    }
+
+    .left,
+    .right{
+        padding: 40px;
+    }
+
+    .left h2{
+        font-size: 42px;
+        text-align: center;
+    }
+
+    form{
+        max-width: 100%;
+    }
+
+    .info-box{
+        width: 100%;
+    }
+}
+
+</style>
 </head>
+
 <body>
-    <h2>Login</h2>
-    <form method="POST">
-        <input type="email" name="email" placeholder="Email"><br>
-        <input type="password" name="password" placeholder="Password"><br>
-        <button type="submit">Login</button>
-    </form>
+
+<!-- GLOW -->
+<div class="glow1"></div>
+<div class="glow2"></div>
+<div class="glow3"></div>
+
+<!-- MAIN -->
+<div class="wrapper">
+
+    <!-- LEFT -->
+    <div class="left">
+
+        <h2>Log in</h2>
+
+        <form method="POST">
+
+            <div class="input-group">
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <button type="submit">
+                Log in
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+        <div class="info-box">
+
+            <h3>Loan Approval System</h3>
+
+            <p>
+                Kelola pengajuan pinjaman dengan sistem analisis
+                berbasis data. Proses lebih cepat, akurat,
+                dan efisien untuk membantu analisis
+                persetujuan pinjaman secara modern.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
