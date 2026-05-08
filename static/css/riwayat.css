@@ -74,6 +74,11 @@ ul{
   color:#ff4f9b;
 }
 
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:60px;
+}
 /* =========================
    LOGO
 =========================*/

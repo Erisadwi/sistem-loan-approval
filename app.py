@@ -21,6 +21,10 @@ app.register_blueprint(profil_bp, url_prefix='/profil')
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/riwayat')
+def riwayat():
+    return render_template('riwayat.html')
+
 @app.route("/review-ui")
 def review_ui():
     return render_template("review.html")

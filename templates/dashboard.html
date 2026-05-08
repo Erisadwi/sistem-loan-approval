@@ -32,17 +32,18 @@
 
       <!-- MENU -->
       <ul class="nav-menu">
-        <li><a href="#">Dashboard</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/form">Pengajuan</a></li>
         <li><a href="/review-ui">Review</a></li>
-        <li><a href="#">Basis kasus</a></li>
-        <li><a href="#">Riwayat</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="/case_base">Basis kasus</a></li>
+        <li><a href="/riwayat">Riwayat</a></li>
       </ul>
 
       <!-- PROFILE -->
       <div class="profile">
-        <img src="{{ url_for('static', filename='uploads/profile.png') }}" alt="logo">
+        <a href="/profil">
+          <img src="{{ url_for('static', filename='uploads/profile.png') }}" alt="logo">
+        </a>
       </div>
 
     </nav>
