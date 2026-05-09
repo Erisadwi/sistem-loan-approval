@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/riwayat.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .hero-review{
         background:
@@ -30,31 +31,138 @@
         background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
         transform:rotate(-5deg);
         }
-        .btn-detail{
-        background:#6c8cff;
-        color:white;
+
+        .action-cell{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        min-width:150px;
+        }
+        .material-icons{
+        font-size:18px;
+        }
+
+        .btn-detail,
+        .btn-revise,
+        .btn-retain{
         border:none;
-        padding:8px 14px;
-        border-radius:10px;
+        padding:8px 18px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:600;
         cursor:pointer;
+        transition:0.25s ease;
+        box-shadow:0 4px 10px rgba(0,0,0,0.08);
+
+        display:flex;
+        align-items:center;
+        gap:8px;
+        }
+
+        .btn-detail{
+        background:linear-gradient(135deg,#7da7ff,#5c7cfa);
+        color:white;
+        }
+
+        .btn-detail:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 18px rgba(92,124,250,0.35);
         }
 
         .btn-revise{
-        background:#ffb347;
+        background:linear-gradient(135deg,#ffc46b,#f59f00);
         color:white;
-        border:none;
-        padding:8px 14px;
-        border-radius:10px;
-        cursor:pointer;
+        }
+
+        .btn-revise:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 18px rgba(245,159,0,0.35);
         }
 
         .btn-retain{
-        background:#4cd97b;
+        background:linear-gradient(135deg,#69db7c,#2f9e44);
         color:white;
+        }
+
+        .btn-retain:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 18px rgba(47,158,68,0.35);
+        }
+        .select-box{
+        background:#f3f4f6;
+        border-radius:12px;
+        padding:6px 10px;
+        width:140px;
+        border:1px solid #e5e7eb;
+        transition:.2s;
+        }
+
+        .select-box:hover{
+        border-color:#d1d5db;
+        }
+
+        .select-box select{
+        width:100%;
         border:none;
-        padding:8px 14px;
-        border-radius:10px;
+        background:transparent;
+        outline:none;
+        font-size:14px;
+        color:#374151;
         cursor:pointer;
+        }
+        .input-box{
+        background:#f3f4f6;
+        border-radius:12px;
+        padding:6px 10px;
+        width:200px;
+        border:1px solid #e5e7eb;
+        transition:.2s;
+        }
+
+        .input-box:hover{
+        border-color:#d1d5db;
+        }
+
+        .input-box input{
+        width:100%;
+        border:none;
+        background:transparent;
+        outline:none;
+        font-size:14px;
+        color:#000000;
+        }
+
+        .input-box::placeholder{
+        color:#9aa0a6;
+        font-style:italic;
+        }
+
+        .badge-Approved,
+        .badge-Rejected{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-width:95px;
+        height:34px;
+        border-radius:999px;
+        font-weight:600;
+        font-size:13px;
+        }
+
+        .badge-Approved{
+        background:#e6fcf5;
+        color:#099268;
+        }
+
+        .badge-Rejected{
+        background:#ffe3e3;
+        color:#c92a2a;
+        }
+
+        .text-money{
+        font-weight:600;
+        color:#525151;
+        letter-spacing:0.3px;
         }
     </style>
 </head>
@@ -131,6 +239,10 @@ window.onload = async () => {
     loadData();
 };
 
+function rupiah(angka){
+    return "Rp " + Number(angka).toLocaleString("id-ID");
+}
+
 async function loadData(){
     const res = await fetch(`${API}/review/pending`,{
         credentials:"include"
@@ -146,29 +258,44 @@ async function loadData(){
         tbody.innerHTML+=`
         <tr>
             <td>${row.id_pengajuan}</td>
-            <td>${row.income_annum}</td>
-            <td>${row.loan_amount}</td>
+            <td class="text-money">${rupiah(row.income_annum)}</td>
+            <td class="text-money">${rupiah(row.loan_amount)}</td>
             <td>${row.cibil_score}</td>
-            <td><b>${row.keputusan}</b></td>
+            <td> 
+                <span class="badge-${row.keputusan}">
+                    ${row.keputusan}
+                </span>
+            </td>
 
             <td>
+                <div class="select-box">
                 <select id="k_${row.id_pengajuan}" class="form-select">
                     <option ${row.keputusan=='Approved'?'selected':''}>Approved</option>
                     <option ${row.keputusan=='Rejected'?'selected':''}>Rejected</option>
                 </select>
+                </div>
             </td>
 
             <td>
+                <div class="input-box">
                 <input 
                     id="c_${row.id_pengajuan}" 
                     class="form-control"
+                    placeholder="Masukkan catatan..."
                     value="${row.catatan ?? ''}">
+                </div>
             </td>
 
-            <td>
-                <button class="btn-detail" onclick="detail(${row.id_pengajuan})">Detail</button>
-                <button class="btn-revise" onclick="revise(${row.id_pengajuan})">Revise</button>
-                <button class="btn-retain" onclick="retain(${row.id_pengajuan})">Retain</button>
+            <td class="action-cell">
+                <button class="btn-detail" onclick="detail(${row.id_pengajuan})">
+                    <span class="material-icons">visibility</span>Detail
+                </button>
+                <button class="btn-revise" onclick="revise(${row.id_pengajuan})">
+                    <span class="material-icons">edit</span>Revise
+                </button>
+                <button class="btn-retain" onclick="retain(${row.id_pengajuan})">
+                    <span class="material-icons">save</span>Retain
+                </button>
             </td>
         </tr>`;
     });
