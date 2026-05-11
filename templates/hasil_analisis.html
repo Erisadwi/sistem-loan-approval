@@ -2,215 +2,396 @@
 <html>
 <head>
     <title>Hasil Analisis</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f6f9;
-            padding: 20px;
-        }
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/riwayat.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
 
-        h2, h3 {
-            color: #333;
-        }
+.hero-review{
+    min-height:calc(100vh - 55px);
+    display:flex;
+    flex-direction:column;
 
-        .card {
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
+    background:
+    linear-gradient(
+        135deg,
+        #dfe9e2 0%,
+        #e7efe8 55%,
+        #f2ece8 42%,
+        #f4e4ea 60%,
+        #e8ebf6 82%,
+        #d6e2f5 100%
+    );
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
+    position:relative;
+    overflow:hidden;
 
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+}
 
-        th {
-            background: #007bff;
-            color: white;
-        }
+.hero-review::before{
+    content:"";
+    position:absolute;
 
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
+    width:160%;
+    height:320px;
 
-        .approve {
-            color: green;
-            font-weight: bold;
-        }
+    top:150px;
+    left:-25%;
 
-        .reject {
-            color: red;
-            font-weight: bold;
-        }
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.22),
+        transparent
+    );
 
-        .result {
-            font-size: 22px;
-            text-align: center;
-            padding: 15px;
-            border-radius: 10px;
-        }
+    transform:rotate(-4deg);
+}
 
-        .result.approve {
-            background: #d4edda;
-            color: #155724;
-        }
+body{
+    font-family:'Poppins', sans-serif;
+    background:#f4f6f9;
+}
 
-        .result.reject {
-            background: #f8d7da;
-            color: #721c24;
-        }
+.content-wrapper{
+    width:100%;
+    padding:70px 90px 40px;
+}
 
-        .card.k-info {
-            background: #eef5ff;
-            border-left: 5px solid #007bff;
-        }
+.page-title{
+    margin:10px 0 18px;
+    font-size:45px;
+    font-weight:800;
+    color:#333;
+}
 
-        .btn-group-kanan {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
+.card{
+    background:rgba(255,255,255,0.93);
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,0.6);
+    box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    backdrop-filter:blur(10px);
+    padding:24px;
+    margin-bottom:25px;
+    font-size:30px;
+    font-weight:700;
+}
 
-        .btn-review {
-            background: #007bff;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+.card h3{
+    margin-bottom:12px;
+    color:#333;
+    font-size:30px;
+    font-weight:700;
+}
 
-        .btn-review:hover {
-            background: #5a6268;
-        }
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
 
-        .btn-dashboard {
-            background: #6c757d;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+table th{
+    background:#f6cad8 !important;
+    color:#222 !important;
+    border:none !important;
+    font-size:16px;
+    font-weight:700;
+    padding:20px;
+    text-align:center;
+}
 
-        .btn-dashboard:hover {
-            background: #0056b3;
-        }
-    </style>
+table td{
+    padding:20px;
+    text-align:center;
+    border-bottom:1px solid #ececec;
+    background:white;
+    font-size:16px;
+    font-weight:400; 
+    color:#444;
+}
+
+table tr:hover td{
+    background:#fff7fa;
+}
+
+.approve{
+    color:#16a34a;
+    font-weight:700;
+}
+
+.reject{
+    color:#dc2626;
+    font-weight:700;
+}
+
+.result{
+    font-size:24px;
+    text-align:center;
+    padding:8px;
+    border-radius:18px;
+    font-weight:700;
+    margin-top:15px;
+}
+
+.result.approve{
+    background:#dff5e4;
+    color:#166534;
+}
+
+.result.reject{
+    background:#ffe3e3;
+    color:#b91c1c;
+}
+
+.card.k-info{
+    background:#eef2ff;
+    border-left:5px solid #d8b4fe;
+}
+
+.card.k-info h3{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:14px;
+    color:#333;
+}
+
+.card.k-info p{
+    font-size:16px;
+    font-weight:400;
+    line-height:1.8;
+    color:#444;
+    margin-bottom:8px;
+}
+
+.card.k-info b,
+.card.k-info strong{
+    font-weight:600;
+}
+
+.card.hasil-akhir h3{
+    font-size:30px;
+    margin-bottom:14px;
+}
+
+.card.hasil-akhir p{
+    font-size:17px;
+    font-weight:400;
+    color:#444;
+    margin-bottom:6px;
+}
+
+.card.hasil-akhir p b{
+    font-weight:600;
+    color:#222;
+}
+
+.card.hasil-akhir p span{
+    font-weight:700;
+    color:#111;
+}
+
+.result{
+    font-size:18px;
+    text-align:center;
+    padding:12px;
+    border-radius:18px;
+    font-weight:700;
+    margin-top:18px;
+}
+
+.btn-group-kanan{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:24px;
+}
+
+.btn-review,
+.btn-dashboard{
+    padding:8px 18px;
+    border-radius:999px;
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    font-size:20px;
+    font-weight:600;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.btn-review{
+    background:linear-gradient(135deg,#7da7ff,#5c7cfa);
+    color:white;
+}
+
+.btn-review:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(92,124,250,0.35);
+}
+
+</style>
 </head>
 <body>
 
-    <h2>Hasil Analisis (Retrieve + Reuse)</h2>
+<section class="hero hero-review" style="min-height:100vh; display:flex; flex-direction:column; justify-content:space-between;">
 
-    <div class="card">
-    <h3>Matriks Normalisasi</h3>
+    <nav class="navbar">
 
-    <table>
-        <tr>
-            <th>No</th>
-            <th>ID Kasus</th>
-            <th>Dependents</th>
-            <th>Self Employed</th>
-            <th>Income Annum</th>
-            <th>Loan Amount</th>
-            <th>Loan Term</th>
-            <th>Cibil Score</th>
-        </tr>
-
-        {% for x in matriks %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ x.id_pengajuan }}</td>
-            <td>{{ x.no_of_dependents }}</td>
-            <td>{{ x.self_employed }}</td>
-            <td>{{ x.income_annum }}</td>
-            <td>{{ x.loan_amount }}</td>
-            <td>{{ x.loan_term }}</td>
-            <td>{{ x.cibil_score }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-
-    <div class="card k-info">
-    <h3>Menentukan Nilai K</h3>
-
-    <p>
-    Data pengajuan termasuk ke dalam 
-    <b>{{ cluster_label }}</b> 
-    dengan jumlah data sebanyak 
-    <b>{{ n_cluster }}</b>
-</p>
-
-    <p>
-        K = √{{ n_cluster }} = {{ "%.2f"|format(n_cluster**0.5) }} ≈ <b>{{ k }}</b>
-    </p>
-    <p>
-        Ambil <b>{{ k }}</b> tetangga terdekat
-    </p>
-</div>
-
-    <div class="card">
-        <h3>Top {{ k }} Nearest Neighbor</h3>
-
-        <table>
-            <tr>
-                <th>ID Kasus</th>
-                <th>Distance</th>
-                <th>Similarity</th>
-                <th>Keputusan</th>
-            </tr>
-
-            {% for x in topk %}
-            <tr>
-                <td>{{ x.id_kasus }}</td>
-                <td>{{ x.distance }}</td>
-                <td>{{ x.similarity }}</td>
-                <td class="{{ 'approve' if x.keputusan=='Approved' else 'reject' }}">
-                    {{ x.keputusan }}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    {% if mdm_approved %}
-    <div class="card">
-        <h3>Perhitungan MDM (Tie Break)</h3>
-
-        <p>MDM Approve: <strong>{{ mdm_approved }}</strong></p>
-        <p>MDM Reject: <strong>{{ mdm_rejected }}</strong></p>
-
-        <p><i>Keputusan diambil berdasarkan nilai MDM terbesar</i></p>
-    </div>
-    {% endif %}
-
-    <div class="card">
-        <h3>Hasil Akhir</h3>
-
-        <p><b>Total Approved:</b> {{ approved }}</p>
-        <p><b>Total Rejected:</b> {{ rejected }}</p>
-
-        <div class="result {{ 'approve' if keputusan=='Approved' else 'reject' }}">
-            {{ keputusan }}
+        <div class="logo">
+            <img src="{{ url_for('static', filename='uploads/crypto-wallet.png') }}" alt="logo">
+            <h1>Deciloan</h1>
         </div>
 
-        <div class="btn-group-kanan">
-            <a href="/review-ui" class="btn-review">Review</a>
-            <a href="/dashboard" class="btn-dashboard">Dashboard</a>
+        <div class="nav-right">
+
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/form">Pengajuan</a></li>
+                <li><a href="/review-ui" style="color:#ea08bd;">Review</a></li>
+                <li><a href="/case_base">Basis Kasus</a></li>
+                <li><a href="/riwayat">Riwayat</a></li>
+            </ul>
+
+            <div class="profile">
+                <a href="/profil">
+                    <img src="{{ url_for('static', filename='uploads/profile.png') }}" alt="logo">
+                </a>
             </div>
+        </div>
+    </nav>
+
+    <div class="content-wrapper" style="padding-bottom:120px;">
+
+        <h2 class="page-title">
+            Hasil Analisis Retrieve & Reuse
+        </h2>
+
+        <div class="card">
+            <h3>Matriks Normalisasi</h3>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>ID Kasus</th>
+                    <th>Dependents</th>
+                    <th>Self Employed</th>
+                    <th>Income Annum</th>
+                    <th>Loan Amount</th>
+                    <th>Loan Term</th>
+                    <th>Cibil Score</th>
+                </tr>
+
+                {% for x in matriks %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ x.id_pengajuan }}</td>
+                    <td>{{ x.no_of_dependents }}</td>
+                    <td>{{ x.self_employed }}</td>
+                    <td>{{ x.income_annum }}</td>
+                    <td>{{ x.loan_amount }}</td>
+                    <td>{{ x.loan_term }}</td>
+                    <td>{{ x.cibil_score }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+
+        <div class="card k-info">
+
+            <h3>Menentukan Nilai K</h3>
+            <p>
+                Data pengajuan termasuk ke dalam
+                <b>{{ cluster_label }}</b>
+                dengan jumlah data sebanyak
+                <b>{{ n_cluster }}</b>
+            </p>
+            <p>
+                K = √{{ n_cluster }}
+                =
+                {{ "%.2f"|format(n_cluster**0.5) }}
+                ≈
+                <b>{{ k }}</b>
+            </p>
+            <p>
+                Ambil
+                <b>{{ k }}</b>
+                tetangga terdekat
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Top {{ k }} Nearest Neighbor</h3>
+            <table>
+                <tr>
+                    <th>ID Kasus</th>
+                    <th>Distance</th>
+                    <th>Similarity</th>
+                    <th>Keputusan</th>
+                </tr>
+                {% for x in topk %}
+                <tr>
+                    <td>{{ x.id_kasus }}</td>
+                    <td>{{ x.distance }}</td>
+                    <td>{{ x.similarity }}</td>
+                    <td class="{{ 'approve' if x.keputusan=='Approved' else 'reject' }}">
+                        {{ x.keputusan }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        {% if mdm_approved %}
+        <div class="card">
+            <h3>Perhitungan MDM (Tie Break)</h3>
+            <p>
+                MDM Approve:
+                <strong>{{ mdm_approved }}</strong>
+            </p>
+            <p>
+                MDM Reject:
+                <strong>{{ mdm_rejected }}</strong>
+            </p>
+            <p>
+                <i>
+                    Keputusan diambil berdasarkan nilai MDM terbesar
+                </i>
+            </p>
+        </div>
+        {% endif %}
+
+        <div class="card hasil-akhir">
+            <h3>Hasil Akhir</h3>
+            <p>
+                <b>Total Approved:</b>
+                <span>{{ approved }}</span>
+            </p>
+            <p>
+                <b>Total Rejected:</b>
+                <span>{{ rejected }}</span>
+            </p>
+            <div class="result {{ 'approve' if keputusan=='Approved' else 'reject' }}">
+                {{ keputusan }}
+            </div>
+
+            <div class="btn-group-kanan">
+                <a href="/review-ui" class="btn-review">
+                    Review
+                </a>
+            </div>
+        </div>
     </div>
+</section>
+
+<div class="footer-bottom" style="margin-top:auto;">
+    <p>© 2025 Deciloan. All Rights Reserved.</p>
+</div>
 
 </body>
 </html>
