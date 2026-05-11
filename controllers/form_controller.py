@@ -5,20 +5,29 @@ form_bp = Blueprint('form', __name__)
 
 @form_bp.route('/', methods=['GET', 'POST'])
 def form_pengajuan():
-    
+
     if 'user' not in session:
         return redirect('/')
 
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # AMBIL DATA USER
+    cursor.execute(
+        "SELECT * FROM users WHERE id_user = %s",
+        (session['user'],)
+    )
+
+    user = cursor.fetchone()
+
     if request.method == 'POST':
+
         no_of_dependents = request.form['no_of_dependents']
         self_employed = request.form['self_employed']
         income_annum = request.form['income_annum']
         loan_amount = request.form['loan_amount']
         loan_term = request.form['loan_term']
         cibil_score = request.form['cibil_score']
-
-        conn = get_db_connection()
-        cursor = conn.cursor()
 
         query = """
         INSERT INTO pengajuan 
@@ -37,9 +46,16 @@ def form_pengajuan():
         ))
 
         conn.commit()
+
         cursor.close()
         conn.close()
 
         return redirect('/hasil_analisis')
 
-    return render_template('form_pengajuan.html')
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        'form_pengajuan.html',
+        user=user
+    )
