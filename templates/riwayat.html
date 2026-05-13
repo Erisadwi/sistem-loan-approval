@@ -96,47 +96,21 @@
 
             <tbody>
 
-              <tr>
-                <td>1</td>
-                <td>USR001</td>
-                <td>Menambahkan Pengajuan</td>
-                <td>Pengajuan</td>
-                <td>REF-1001</td>
-              </tr>
+  {% for log in logs %}
+  <tr>
 
-              <tr>
-                <td>2</td>
-                <td>USR002</td>
-                <td>Melakukan Review</td>
-                <td>Review</td>
-                <td>REF-1002</td>
-              </tr>
+    <td>{{ log.id_log }}</td>
 
-              <tr>
-                <td>3</td>
-                <td>USR003</td>
-                <td>Menyetujui Kredit</td>
-                <td>Approval</td>
-                <td>REF-1003</td>
-              </tr>
+    <td>{{ log.user }}</td>
 
-              <tr>
-                <td>4</td>
-                <td>USR004</td>
-                <td>Menolak Pengajuan</td>
-                <td>Approval</td>
-                <td>REF-1004</td>
-              </tr>
+    <td>{{ log.aktivitas }}</td>
 
-              <tr>
-                <td>5</td>
-                <td>USR005</td>
-                <td>Update Data Nasabah</td>
-                <td>Nasabah</td>
-                <td>REF-1005</td>
-              </tr>
+    <td>{{ log.waktu }}</td>
 
-            </tbody>
+  </tr>
+  {% endfor %}
+
+</tbody>
 
           </table>
 
