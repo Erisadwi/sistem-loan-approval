@@ -33,5 +33,10 @@ def dashboard():
 def review_ui():
     return render_template("review.html")
 
+# RIWAYAT
+@app.route("/riwayat")
+def riwayat():
+    return render_template("riwayat.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
