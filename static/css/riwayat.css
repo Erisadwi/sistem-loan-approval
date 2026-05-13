@@ -44,25 +44,36 @@ ul{
 /* =========================
    NAVBAR
 =========================*/
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:50px;
+
+  margin-left:auto;
+}
+
 .navbar{
   width:100%;
   height:100px;
 
   display:flex;
-  justify-content:space-between;
   align-items:center;
 
   padding:20px 80px;
 }
 
+.nav-menu{
+  display:flex;
+  gap:45px;
+  align-items:center;
+
+  margin-right:10px;
+}
 /* =========================
    MENU
 =========================*/
-.nav-menu{
-  display:flex;
-  gap:50px;
-  align-items:center;
-}
+
 
 .nav-menu a{
   font-size:18px;
