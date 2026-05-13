@@ -37,25 +37,7 @@ def review_ui():
 # RIWAYAT
 @app.route("/riwayat")
 def riwayat():
-
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("""
-        SELECT *
-        FROM activity_log
-        ORDER BY waktu DESC
-    """)
-
-    logs = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return render_template(
-        "riwayat.html",
-        logs=logs
-    )
+    return render_template("riwayat.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
