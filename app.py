@@ -27,46 +27,7 @@ def home():
 # Dashboard
 @app.route('/dashboard')
 def dashboard():
-
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    # TOTAL DATA
-    cursor.execute("""
-        SELECT COUNT(*) AS total
-        FROM basis_kasus
-    """)
-    total = cursor.fetchone()['total']
-
-    # APPROVED
-    cursor.execute("""
-        SELECT COUNT(*) AS approved
-        FROM basis_kasus
-        WHERE loan_status='Approved'
-    """)
-    approved = cursor.fetchone()['approved']
-
-    # REJECTED
-    cursor.execute("""
-        SELECT COUNT(*) AS rejected
-        FROM basis_kasus
-        WHERE loan_status='Rejected'
-    """)
-    rejected = cursor.fetchone()['rejected']
-
-    # MENUNGGU
-    pending = total - (approved + rejected)
-
-    cursor.close()
-    conn.close()
-
-    return render_template(
-        'dashboard.html',
-        total=total,
-        approved=approved,
-        rejected=rejected,
-        pending=pending
-    )
+    return render_template('dashboard.html')
 
 # Review UI
 @app.route("/review-ui")
