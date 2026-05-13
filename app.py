@@ -6,6 +6,7 @@ from controllers.case_controller import case
 from controllers.hasilAnalisis_controller import hasil_bp
 from controllers.review_controller import review_bp
 from controllers.profil_controller import profil_bp
+from utils.db import get_db_connection
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -36,7 +37,25 @@ def review_ui():
 # RIWAYAT
 @app.route("/riwayat")
 def riwayat():
-    return render_template("riwayat.html")
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT *
+        FROM activity_log
+        ORDER BY waktu DESC
+    """)
+
+    logs = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "riwayat.html",
+        logs=logs
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
