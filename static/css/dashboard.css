@@ -45,12 +45,20 @@ ul{
 /* =========================
    NAVBAR
 =========================*/
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:40px;
+
+  margin-left:auto;
+}
+
 .navbar{
   width:100%;
   height:100px;
 
   display:flex;
-  justify-content:space-between;
   align-items:center;
 
   padding:20px 80px;
@@ -58,8 +66,10 @@ ul{
 
 .nav-menu{
   display:flex;
-  gap:65px;
+  gap:45px;
   align-items:center;
+
+  margin-right:10px;
 }
 
 /* =========================
