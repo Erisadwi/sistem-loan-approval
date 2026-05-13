@@ -10,6 +10,7 @@ from controllers.profil_controller import profil_bp
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Register blueprint
 app.register_blueprint(auth)
 app.register_blueprint(form_bp, url_prefix='/form')
 app.register_blueprint(case)
@@ -17,14 +18,17 @@ app.register_blueprint(hasil_bp)
 app.register_blueprint(review_bp, url_prefix='/review')
 app.register_blueprint(profil_bp, url_prefix='/profil')
 
+# HALAMAN UTAMA
+@app.route('/')
+def home():
+    return render_template('dashboard.html')
+
+# Dashboard
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/riwayat')
-def riwayat():
-    return render_template('riwayat.html')
-
+# Review UI
 @app.route("/review-ui")
 def review_ui():
     return render_template("review.html")
