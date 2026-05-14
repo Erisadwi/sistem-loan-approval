@@ -49,8 +49,7 @@ ul{
 .nav-right{
   display:flex;
   align-items:center;
-  gap:50px;
-
+  gap:40px;
   margin-left:auto;
 }
 
