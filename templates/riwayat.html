@@ -93,8 +93,8 @@
   <tr>
     <th>ID Log</th>
     <th>ID Pengajuan</th>
-    <th>ID User</th>
     <th>User</th>
+    <th>Jenis Aktivitas</th>
     <th>Aktivitas</th>
     <th>Waktu</th>
   </tr>
@@ -105,8 +105,9 @@
 {% for log in logs %}
 <tr>
     <td>{{ log.id_log }}</td>
-    <td>{{ log.id_user }}</td>
-    <td>{{ log.nama_user }}</td>
+    <td>{{ log.id_pengajuan }}</td>
+    <td>{{ log.nama }}</td>
+    <td>{{ log.jenis_aktivitas }}</td>
     <td>{{ log.aktivitas }}</td>
     <td>{{ log.waktu }}</td>
 </tr>

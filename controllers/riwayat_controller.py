@@ -15,10 +15,18 @@ def riwayat():
 
     # ambil data log activity
     cursor.execute("""
-        SELECT *
-        FROM log_activity
-        ORDER BY waktu DESC
-    """)
+            SELECT 
+                l.id_log,
+                l.id_pengajuan,
+                l.id_user,
+                u.nama,
+                l.jenis_aktivitas,
+                l.aktivitas,
+                l.waktu
+            FROM log_activity l
+            JOIN users u ON l.id_user = u.id_user
+            ORDER BY l.waktu DESC
+        """)
 
     logs = cursor.fetchall()
 

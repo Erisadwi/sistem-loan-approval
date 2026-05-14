@@ -1,5 +1,6 @@
 import mysql.connector
 from flask import Blueprint, request, jsonify, session
+from utils.activity_logger import catat_aktivitas
 
 review_bp = Blueprint("review", __name__)
 
@@ -54,11 +55,18 @@ def revise_keputusan(id_pengajuan):
     id_analis = session["user"]
 
     db = get_db()
-    cursor = db.cursor()
+    cursor = db.cursor(dictionary=True)
 
     data = request.json
     keputusan = data.get("keputusan")
     catatan = data.get("catatan","")
+
+    cursor.execute("""
+        SELECT keputusan, catatan
+        FROM review_analis
+        WHERE id_pengajuan=%s
+    """,(id_pengajuan,))
+    old_review = cursor.fetchone()
 
     query = """
     INSERT INTO review_analis (id_pengajuan, id_analis, keputusan, catatan, tanggal_review)
@@ -77,6 +85,31 @@ def revise_keputusan(id_pengajuan):
         SET status_proses='DIREVIEW'
         WHERE id_pengajuan=%s
     """,(id_pengajuan,))
+
+    
+    if old_review is None:
+        aktivitas = f"Membuat review pengajuan ID {id_pengajuan} : {keputusan}"
+    else:
+        perubahan = []
+
+        if old_review["keputusan"] != keputusan:
+            perubahan.append(f"keputusan → {keputusan}")
+
+        if old_review["catatan"] != catatan:
+            perubahan.append("catatan diperbarui")
+
+        if perubahan:
+            aktivitas = f"Update review pengajuan ID {id_pengajuan} ({', '.join(perubahan)})"
+        else:
+            aktivitas = f"Menyimpan ulang review pengajuan ID {id_pengajuan}"
+
+    catat_aktivitas(
+        db,
+        id_analis,
+        aktivitas,
+        "REVIEW",
+        id_pengajuan
+    )
 
     db.commit()
     return jsonify({"message":"Revisi berhasil"})
@@ -155,6 +188,16 @@ def retain_case(id_pengajuan):
     """,(id_pengajuan,))
     
     db.commit()
+
+    aktivitas = f"Retain kasus ke basis kasus dari pengajuan ID {id_pengajuan}"
+
+    catat_aktivitas(
+        db,
+        kasus["id_analis"],
+        aktivitas,
+        "RETAIN_CASE",
+        id_pengajuan
+    )
     return jsonify({
         "message": "Kasus berhasil disimpan ke basis kasus",
         "loan_id_baru": loan_id
