@@ -100,21 +100,17 @@
   </tr>
 </thead>
 
-            <tbody>
+<tbody>
 
-  {% for log in logs %}
-  <tr>
-
+{% for log in logs %}
+<tr>
     <td>{{ log.id_log }}</td>
-
-    <td>{{ log.user }}</td>
-
+    <td>{{ log.id_user }}</td>
+    <td>{{ log.nama_user }}</td>
     <td>{{ log.aktivitas }}</td>
-
     <td>{{ log.waktu }}</td>
-
-  </tr>
-  {% endfor %}
+</tr>
+{% endfor %}
 
 </tbody>
 
