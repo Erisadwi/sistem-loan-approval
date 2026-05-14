@@ -22,7 +22,7 @@ app.register_blueprint(profil_bp, url_prefix='/profil')
 # HALAMAN UTAMA
 @app.route('/')
 def home():
-    return dashboard(dashboard.html)
+    return dashboard('dashboard.html')
 
 # Dashboard
 @app.route('/dashboard')
