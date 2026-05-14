@@ -51,10 +51,47 @@ def login():
 
 @auth.route('/dashboard')
 def dashboard():
+
     if 'user' not in session:
         return redirect('/')
-    return render_template('dashboard.html', nama=session['nama'])
 
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # TOTAL DATA
+    cursor.execute("SELECT COUNT(*) AS total FROM basis_kasus")
+    total = cursor.fetchone()['total']
+
+    # APPROVED
+    cursor.execute("""
+        SELECT COUNT(*) AS approved
+        FROM basis_kasus
+        WHERE loan_status = 'Approved'
+    """)
+    approved = cursor.fetchone()['approved']
+
+    # REJECTED
+    cursor.execute("""
+        SELECT COUNT(*) AS rejected
+        FROM basis_kasus
+        WHERE loan_status = 'Rejected'
+    """)
+    rejected = cursor.fetchone()['rejected']
+
+    # PENDING
+    pending = 0
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        'dashboard.html',
+        nama=session['nama'],
+        total=total,
+        approved=approved,
+        rejected=rejected,
+        pending=pending
+    )
 
 @auth.route("/me")
 def me():
