@@ -19,11 +19,6 @@ app.register_blueprint(hasil_bp)
 app.register_blueprint(review_bp, url_prefix='/review')
 app.register_blueprint(profil_bp, url_prefix='/profil')
 
-# HALAMAN UTAMA
-@app.route('/')
-def home():
-    return dashboard('dashboard.html')
-
 # Dashboard
 @app.route('/dashboard')
 def dashboard():
