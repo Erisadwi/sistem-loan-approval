@@ -80,8 +80,15 @@
 
           <h2>Data Riwayat Aktivitas</h2>
 
-          <input type="text" placeholder="Cari data...">
-
+          <form method="GET" action="{{ url_for('riwayat.riwayat') }}">
+  <input 
+      type="text"
+      name="search"
+      placeholder="Cari data..."
+      value="{{ search if search else '' }}"
+      onkeyup="this.form.submit()"
+  >
+</form>
         </div>
 
         <!-- TABLE -->
