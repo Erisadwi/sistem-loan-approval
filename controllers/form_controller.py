@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, session
 from utils.db import get_db_connection
 
+from utils.activity_logger import catat_aktivitas
+
 form_bp = Blueprint('form', __name__)
 
 @form_bp.route('/', methods=['GET', 'POST'])
@@ -12,7 +14,6 @@ def form_pengajuan():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # AMBIL DATA USER
     cursor.execute(
         "SELECT * FROM users WHERE id_user = %s",
         (session['user'],)
@@ -46,6 +47,18 @@ def form_pengajuan():
         ))
 
         conn.commit()
+
+        id_pengajuan = cursor.lastrowid
+
+        aktivitas = f"Membuat pengajuan pinjaman ID {id_pengajuan}"
+
+        catat_aktivitas(
+            conn,
+            session['user'],
+            aktivitas,
+            "CREATE_PENGAJUAN",
+            id_pengajuan
+        )
 
         cursor.close()
         conn.close()
