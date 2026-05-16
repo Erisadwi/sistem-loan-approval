@@ -184,7 +184,7 @@ ul{
 
 .btn-primary{
   background:#abd6f7;
-  color:white;
+  color:black;
 }
 
 .btn-primary:hover{
@@ -192,7 +192,7 @@ ul{
 }
 
 .btn-secondary{
-  background:#efeedf;
+  background:white;
 }
 
 .btn-secondary:hover{
