@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <title>Profile</title>
 
@@ -16,11 +17,13 @@
 }
 
 body{
-    height:100vh;
+    min-height:100vh;
 
     display:flex;
     justify-content:center;
     align-items:center;
+
+    padding:40px 20px;
 
     overflow:hidden;
     position:relative;
@@ -35,7 +38,7 @@ body{
     );
 }
 
-/* BACKGROUND GLOW */
+/* BACKGROUND */
 body::before,
 body::after{
     content:'';
@@ -48,9 +51,7 @@ body::after{
 body::before{
     width:500px;
     height:500px;
-
     background:#f8c6ca;
-
     top:-180px;
     left:-180px;
 }
@@ -58,14 +59,11 @@ body::before{
 body::after{
     width:500px;
     height:500px;
-
     background:#b3d8f5;
-
     bottom:-180px;
     right:-180px;
 }
 
-/* EXTRA GLOW */
 .glow1,
 .glow2,
 .glow3{
@@ -78,9 +76,7 @@ body::after{
 .glow1{
     width:300px;
     height:300px;
-
     background:#dfcffb;
-
     top:20%;
     left:18%;
 }
@@ -88,9 +84,7 @@ body::after{
 .glow2{
     width:350px;
     height:350px;
-
     background:#f8c6ca;
-
     bottom:10%;
     right:15%;
 }
@@ -98,16 +92,13 @@ body::after{
 .glow3{
     width:300px;
     height:300px;
-
     background:#f9d8f3;
-
     top:45%;
     left:45%;
-
     opacity:0.5;
 }
 
-/* MAIN CARD */
+/* CARD */
 .profile-card{
     width:950px;
     min-height:520px;
@@ -121,7 +112,7 @@ body::after{
     border-radius:40px;
 
     background:
-        rgba(255,255,255,0.10);
+        rgba(255,255,255,0.12);
 
     backdrop-filter:blur(30px);
     -webkit-backdrop-filter:blur(30px);
@@ -134,7 +125,7 @@ body::after{
         inset 0 0 30px rgba(255,255,255,0.08);
 }
 
-/* LEFT SIDE */
+/* LEFT */
 .profile-left{
     width:38%;
 
@@ -145,8 +136,6 @@ body::after{
     justify-content:center;
     align-items:center;
 
-    position:relative;
-
     background:
         rgba(255,255,255,0.08);
 
@@ -154,7 +143,7 @@ body::after{
         1px solid rgba(255,255,255,0.12);
 }
 
-/* AVATAR */
+/* PHOTO */
 .profile-photo{
     width:170px;
     height:170px;
@@ -202,27 +191,20 @@ body::after{
     font-size:42px;
     font-weight:700;
 
-    color:white;
+    color:#2d1b69;
 
     margin-bottom:10px;
-
-    text-shadow:
-        0 4px 15px rgba(0,0,0,0.12);
 }
 
-/* SUBTITLE */
 .subtitle{
     font-size:15px;
-
-    color:
-        rgb(98, 98, 208);
-
+    color:#5f5f5f;
     text-align:center;
-
     line-height:1.7;
+    font-weight:500;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 .profile-right{
     flex:1;
 
@@ -235,15 +217,14 @@ body::after{
 
 /* TITLE */
 .section-title{
-    font-size:34px;
-    font-weight:700;
+    font-size:42px;
+    font-weight:800;
 
-    color:white;
+    color:#2d1b69;
 
     margin-bottom:35px;
 
-    text-shadow:
-        0 4px 15px rgba(0,0,0,0.10);
+    letter-spacing:-1px;
 }
 
 /* INFO GRID */
@@ -255,41 +236,46 @@ body::after{
     margin-bottom:35px;
 }
 
-/* INFO CARD */
+/* INFO BOX */
 .info-box{
-    padding:24px;
+    padding:26px;
 
     border-radius:24px;
 
     background:
-        rgba(255,255,255,0.16);
+        rgba(255,255,255,0.40);
 
     border:
-        1px solid rgba(255,255,255,0.18);
+        1px solid rgba(255,255,255,0.30);
 
     backdrop-filter:blur(18px);
 
     box-shadow:
-        inset 0 0 12px rgba(255,255,255,0.08);
+        0 10px 25px rgba(0,0,0,0.05);
+
+    transition:0.3s;
+}
+
+.info-box:hover{
+    transform:translateY(-3px);
 }
 
 .info-label{
     font-size:14px;
-
-    color:
-        rgba(4, 4, 4, 0.884);
-
+    color:#555;
     margin-bottom:10px;
+    font-weight:500;
 }
 
 .info-value{
     font-size:20px;
-    font-weight:600;
+    font-weight:700;
+    color:#2d1b69;
 
-    color:white;
+    word-break:break-word;
 }
 
-/* BUTTON AREA */
+/* BUTTON GROUP */
 .button-group{
     display:flex;
     gap:16px;
@@ -299,71 +285,114 @@ body::after{
 .edit-btn{
     flex:1;
 
-    padding:16px;
+    padding:17px;
 
     border:none;
     border-radius:18px;
 
     cursor:pointer;
 
-    font-size:16px;
-    font-weight:600;
+    font-size:17px;
+    font-weight:700;
 
-    color:#3d3d3d;
+    color:white;
 
     background:
     linear-gradient(
         135deg,
-        rgba(223,207,251,1),
-        rgba(248,198,202,1)
+        #8f6bff,
+        #ff7ea5
     );
 
     transition:0.3s;
 
     box-shadow:
-        0 10px 25px rgba(223,207,251,0.35);
+        0 10px 30px rgba(143,107,255,0.30);
 }
 
 .edit-btn:hover{
-    transform:
-        translateY(-3px);
+    transform:translateY(-3px);
 
     box-shadow:
-        0 15px 35px rgba(248,198,202,0.35);
+        0 15px 35px rgba(247,184,200,0.35);
 }
 
 /* LOGOUT */
 .logout-btn{
     flex:1;
 
-    padding:16px;
+    padding:17px;
 
-    border:none;
     border-radius:18px;
 
     cursor:pointer;
 
-    background:
-        rgba(255,255,255,0.14);
+    background:transparent;
 
-    border:
-        1px solid rgba(255,255,255,0.18);
+    border:2px solid #ff5f6d;
+
+    color:#ff3d57;
+
+    font-weight:700;
+
+    font-size:17px;
+
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    background:#ff5f6d;
 
     color:white;
 
-    font-weight:600;
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(255,95,109,0.25);
+}
+
+/* BACK */
+.back-area{
+    margin-top:18px;
+}
+
+.back-btn{
+    width:100%;
+
+    padding:16px 20px;
+
+    border-radius:18px;
+
+    text-decoration:none;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        rgba(255,255,255,0.35);
+
+    border:
+        1px solid rgba(143,107,255,0.30);
+
+    color:#2d1b69;
+
+    font-size:17px;
+    font-weight:700;
 
     transition:0.3s;
 
     backdrop-filter:blur(12px);
 }
 
-.logout-btn:hover{
-    background:
-        rgba(255,255,255,0.24);
+.back-btn:hover{
+    transform:translateY(-2px);
 
-    transform:
-        translateY(-2px);
+    background:
+        rgba(255,255,255,0.50);
+
+    box-shadow:
+        0 10px 25px rgba(143,107,255,0.15);
 }
 
 /* MODAL */
@@ -393,24 +422,22 @@ body::after{
     border-radius:30px;
 
     background:
-        rgba(255,255,255,0.12);
+        rgba(255,255,255,0.18);
 
     backdrop-filter:blur(25px);
 
     border:
         1px solid rgba(255,255,255,0.18);
 
-    color:white;
+    color:#2f2f2f;
 
     animation:popupShow 0.3s ease;
 }
 
-/* MODAL TITLE */
 .modal-content h3,
 .popup-box h3{
     margin-bottom:25px;
     text-align:center;
-
     font-size:28px;
 }
 
@@ -428,7 +455,7 @@ input{
     border-radius:15px;
 
     background:
-        rgba(255,255,255,0.35);
+        rgba(255,255,255,0.45);
 
     color:#444;
 
@@ -437,13 +464,13 @@ input{
 
 input:focus{
     background:
-        rgba(255,255,255,0.55);
+        rgba(255,255,255,0.70);
 
     transform:scale(1.02);
 }
 
 input[type="file"]{
-    color:white;
+    color:#444;
 }
 
 /* BUTTONS */
@@ -455,8 +482,7 @@ input[type="file"]{
 
 .save-btn,
 .cancel-btn,
-.confirm-btn,
-.delete-btn{
+.confirm-btn{
     flex:1;
 
     padding:14px;
@@ -475,47 +501,40 @@ input[type="file"]{
     text-align:center;
 }
 
-/* SAVE */
 .save-btn,
 .confirm-btn{
     background:
     linear-gradient(
         135deg,
-        rgba(223,207,251,0.95),
-        rgba(248,198,202,0.95)
+        #8f6bff,
+        #ff7ea5
     );
 
-    color:#444;
+    color:white;
+
+    box-shadow:
+        0 10px 25px rgba(143,107,255,0.25);
 }
 
-/* CANCEL */
+
 .cancel-btn{
     background:
-        rgba(255,255,255,0.12);
+        rgba(255,255,255,0.35);
 
-    color:white;
+    color:#333;
 }
 
-/* HOVER */
 .save-btn:hover,
 .cancel-btn:hover,
-.confirm-btn:hover,
-.delete-btn:hover{
-    transform:
-        translateY(-2px);
+.confirm-btn:hover{
+    transform:translateY(-2px);
 }
 
-/* POPUP TEXT */
 .popup-box p{
     font-size:15px;
-
     line-height:1.6;
-
-    color:
-        rgba(255,255,255,0.82);
-
+    color:#444;
     margin-bottom:25px;
-
     text-align:center;
 }
 
@@ -524,14 +543,12 @@ input[type="file"]{
 
     from{
         opacity:0;
-        transform:
-            scale(0.8);
+        transform:scale(0.8);
     }
 
     to{
         opacity:1;
-        transform:
-            scale(1);
+        transform:scale(1);
     }
 }
 
@@ -545,8 +562,8 @@ input[type="file"]{
 
     .profile-left{
         width:100%;
-
         border-right:none;
+
         border-bottom:
             1px solid rgba(255,255,255,0.12);
     }
@@ -608,7 +625,7 @@ input[type="file"]{
     <div class="profile-right">
 
         <h3 class="section-title">
-            Profile Information
+            Informasi Profil
         </h3>
 
         <div class="info-grid">
@@ -635,6 +652,7 @@ input[type="file"]{
                 class="edit-btn"
                 onclick="openModal()"
             >
+                <i class="fa-solid fa-pen"></i>
                 Edit Profil
             </button>
 
@@ -642,8 +660,17 @@ input[type="file"]{
                 class="logout-btn"
                 onclick="openLogoutModal()"
             >
+                <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </button>
+
+        </div>
+
+        <div class="back-area">
+
+            <a href="javascript:history.back()" class="back-btn">
+                ← Kembali
+            </a>
 
         </div>
 
@@ -771,15 +798,6 @@ function openLogoutModal(){
 
 function closeLogoutModal(){
     document.getElementById('logoutModal').style.display = 'none';
-}
-
-/* DELETE */
-function openDeleteModal(){
-    document.getElementById('deleteModal').style.display = 'flex';
-}
-
-function closeDeleteModal(){
-    document.getElementById('deleteModal').style.display = 'none';
 }
 
 /* SAVE */
