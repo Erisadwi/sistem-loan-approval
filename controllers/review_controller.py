@@ -133,6 +133,11 @@ def generate_loan_id(cursor):
 
 @review_bp.route("/retain/<int:id_pengajuan>", methods=["POST"])
 def retain_case(id_pengajuan):
+    if "user" not in session:
+        return jsonify({"message":"Belum login"}),401
+
+    id_user_login = session["user"]
+
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
@@ -171,7 +176,7 @@ def retain_case(id_pengajuan):
     """,(
         loan_id,
         kasus["id_pengajuan"],   
-        kasus["id_analis"],      
+        id_user_login,      
         kasus["no_of_dependents"],
         kasus["self_employed"],
         kasus["income_annum"],
@@ -193,7 +198,7 @@ def retain_case(id_pengajuan):
 
     catat_aktivitas(
         db,
-        kasus["id_analis"],
+        id_user_login,
         aktivitas,
         "RETAIN_CASE",
         id_pengajuan

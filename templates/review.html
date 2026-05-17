@@ -38,6 +38,7 @@
         gap:12px;
         min-width:150px;
         }
+
         .material-icons{
         font-size:18px;
         }
@@ -88,6 +89,7 @@
         transform:translateY(-2px);
         box-shadow:0 8px 18px rgba(47,158,68,0.35);
         }
+
         .select-box{
         background:#f3f4f6;
         border-radius:12px;
@@ -110,6 +112,7 @@
         color:#374151;
         cursor:pointer;
         }
+
         .input-box{
         background:#f3f4f6;
         border-radius:12px;
@@ -163,6 +166,63 @@
         font-weight:600;
         color:#525151;
         letter-spacing:0.3px;
+        }
+        /* BACKDROP */
+        .modal{
+            position:fixed;
+            inset:0;
+
+            background:rgba(0,0,0,0.25);
+            backdrop-filter:blur(10px);
+
+            display:none;
+            justify-content:center;
+            align-items:center;
+
+            z-index:999;
+        }
+
+        /* BOX (dipakai modal & popup) */
+        .modal-content,
+        .popup-box{
+            width:400px;
+            padding:35px;
+            border-radius:30px;
+
+            background:rgba(255,255,255,0.18);
+            backdrop-filter:blur(25px);
+
+            border:1px solid rgba(255,255,255,0.18);
+            color:#2f2f2f;
+
+            animation:popupShow 0.3s ease;
+        }
+
+        /* JUDUL */
+        .modal-content h3,
+        .popup-box h3{
+            margin-bottom:25px;
+            text-align:center;
+            font-size:28px;
+        }
+
+        /* TEXT */
+        .popup-box p{
+            text-align:center;
+            font-size:16px;
+            opacity:0.8;
+        }
+
+        /* ANIMASI */
+        @keyframes popupShow{
+            from{
+                transform:scale(.8);
+                opacity:0;
+            }
+            to{
+                transform:scale(1);
+                opacity:1;
+            }
         }
     </style>
 </head>
@@ -229,6 +289,12 @@
     </section>
 </section>
 
+<div class="modal" id="popupNotif" style="display:none;">
+    <div class="popup-box">
+        <h3 id="popupTitle">Berhasil</h3>
+        <p id="popupMessage">Pesan</p>
+    </div>
+</div>
 
 <script>
 const API="http://127.0.0.1:5000";
@@ -307,6 +373,18 @@ async function loadData(){
     });
 }
 
+function showPopup(title, message, duration = 1500){
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+
+    const popup = document.getElementById("popupNotif");
+    popup.style.display = "flex";
+
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, duration);
+}
+
 async function revise(id){
     await fetch(`${API}/review/revise/${id}`,{
         method:"PUT",
@@ -317,7 +395,8 @@ async function revise(id){
             catatan:document.getElementById(`c_${id}`).value
         })
     });
-    alert("Revisi berhasil");
+
+    showPopup("Berhasil", "Revisi berhasil");
     loadData();
 }
 
@@ -328,18 +407,17 @@ async function retain(id){
             credentials:"include"
         });
 
-        const text = await res.text();
+        const data = await res.json();  
 
         if(!res.ok){
-            throw new Error(text);
+            throw new Error(data.message || "Retain gagal");
         }
 
-        const data = JSON.parse(text);
-        alert("Berhasil jadi kasus baru: "+data.loan_id_baru);
+        showPopup("Berhasil", "Kasus baru berhasil dibuat (ID: " + data.loan_id_baru + ")");
         loadData();
 
     }catch(err){
-        alert("Retain gagal: " + err.message);
+        showPopup("Gagal", err.message);
     }
 }
 
