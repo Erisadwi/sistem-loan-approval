@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session
 from utils.db import get_db_connection
+from datetime import datetime
 import bcrypt
 
 
@@ -58,11 +59,13 @@ def dashboard():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # TOTAL DATA
+    # =========================
+    # CARD DATA
+    # =========================
+
     cursor.execute("SELECT COUNT(*) AS total FROM basis_kasus")
     total = cursor.fetchone()['total']
 
-    # APPROVED
     cursor.execute("""
         SELECT COUNT(*) AS approved
         FROM basis_kasus
@@ -70,7 +73,6 @@ def dashboard():
     """)
     approved = cursor.fetchone()['approved']
 
-    # REJECTED
     cursor.execute("""
         SELECT COUNT(*) AS rejected
         FROM basis_kasus
@@ -78,9 +80,55 @@ def dashboard():
     """)
     rejected = cursor.fetchone()['rejected']
 
-    # PENDING
     pending = 0
 
+    # =========================
+    # DATA GRAFIK PER BULAN
+    # =========================
+
+    cursor.execute("""
+        SELECT 
+            MONTH(tanggal_masuk) AS bulan,
+            COUNT(*) AS jumlah
+        FROM basis_kasus
+        GROUP BY MONTH(tanggal_masuk)
+        ORDER BY MONTH(tanggal_masuk)
+    """)
+
+    hasil = cursor.fetchall()
+
+    bulan_map = {
+        1: "Januari",
+        2: "Februari",
+        3: "Maret",
+        4: "April",
+        5: "Mei",
+        6: "Juni",
+        7: "Juli",
+        8: "Agustus",
+        9: "September",
+        10: "Oktober",
+        11: "November",
+        12: "Desember"
+    }
+
+    labels = []
+    values = []
+
+    for row in hasil:
+        labels.append(bulan_map[row['bulan']])
+        values.append(row['jumlah'])
+
+    total_chart = sum(values)
+
+    if total_chart == 0:
+        percentages = [0, 0, 0, 0]
+    else:
+        percentages = [
+            (v / total_chart) * 360
+            for v in values
+        ]
+    
     cursor.close()
     conn.close()
 
@@ -90,7 +138,10 @@ def dashboard():
         total=total,
         approved=approved,
         rejected=rejected,
-        pending=pending
+        pending=pending,
+        labels=labels,
+        values=values,
+        percentages=percentages
     )
 
 @auth.route("/me")

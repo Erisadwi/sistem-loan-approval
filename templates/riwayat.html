@@ -46,10 +46,16 @@
 
   <!-- PROFILE -->
   <div class="profile">
-    <a href="/profil">
-      <img src="{{ url_for('static', filename='uploads/profile.png') }}" alt="logo">
-    </a>
-  </div>
+            <a href="/profil"> 
+                <img
+                    src="{% if user and user.foto %}
+                            {{ url_for('static', filename='uploads/' + user.foto) }}
+                        {% else %}
+                            {{ url_for('static', filename='uploads/default.png') }}
+                        {% endif %}"
+                    alt="Profile">
+            </a>
+        </div>
 
 </div>
     </nav>

@@ -44,10 +44,16 @@
 
   <!-- PROFILE -->
   <div class="profile">
-    <a href="/profil">
-      <img src="{{ url_for('static', filename='uploads/profile.png') }}" alt="logo">
-    </a>
-  </div>
+            <a href="/profil"> 
+                <img
+                    src="{% if user and user.foto %}
+                            {{ url_for('static', filename='uploads/' + user.foto) }}
+                        {% else %}
+                            {{ url_for('static', filename='uploads/default.png') }}
+                        {% endif %}"
+                    alt="Profile">
+            </a>
+        </div>
 
 </div>
     </nav>
@@ -191,28 +197,56 @@
         <!-- PIE AREA -->
         <div class="pie-area">
 
-          <div class="label jan">
-            Januari
-            <div class="line"></div>
-          </div>
+          <div class="chart-wrapper">
 
-          <div class="label feb">
-            Februari
-            <div class="line"></div>
-          </div>
+  <!-- PIE -->
+  <div 
+    class="pie-chart"
+    style="
+      background:
+      conic-gradient(
+        {% set colors = ['#7372e7', '#6fd3cb', '#ff4f87', '#e7e56f', '#f39c12', '#9b59b6'] %}
+        {% set ns = namespace(start=0) %}
 
-          <div class="label mar">
-            Maret
-            <div class="line"></div>
-          </div>
+        {% for p in percentages %}
+          {{ colors[loop.index0] }}
+          {{ ns.start }}deg
+          {{ ns.start + p }}deg
+          {% if not loop.last %},{% endif %}
 
-          <div class="label apr">
-            April
-            <div class="line"></div>
-          </div>
+          {% set ns.start = ns.start + p %}
+        {% endfor %}
+      );
+    ">
+  </div>
 
-          <!-- PIE -->
-          <div class="pie-chart"></div>
+  <!-- LEGEND -->
+  <div class="chart-legend">
+
+    {% for label in labels %}
+    <div class="legend-item">
+
+      <div class="legend-left">
+        <div 
+          class="legend-color"
+          style="background: {{ colors[loop.index0] }}">
+        </div>
+
+        <span>{{ label }}</span>
+      </div>
+
+      <div class="legend-right">
+        {{ values[loop.index0] }} kasus
+        ({{ ((values[loop.index0] / values|sum) * 100)|round(1) }}%)
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+</div>
+
 
         </div>
 
