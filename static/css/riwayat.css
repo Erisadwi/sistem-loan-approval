@@ -8,6 +8,10 @@
 body{
   background:#f3f3f3;
   overflow-x:hidden;
+
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
 /* =========================
@@ -27,7 +31,8 @@ ul{
 =========================*/
 .hero{
   width:100%;
-  min-height:140vh;
+
+  flex:1;
 
   background:
   linear-gradient(
@@ -38,7 +43,7 @@ ul{
     #a8d8ef 100%
   );
 
-  padding-bottom:100px;
+  padding-bottom:40px;
 }
 
 /* =========================
@@ -220,6 +225,11 @@ ul{
 =========================*/
 .table-wrapper{
   overflow-x:auto;
+  overflow-y:auto;
+
+  max-height:350px;
+
+  border-radius:15px;
 }
 
 table{
@@ -322,6 +332,8 @@ footer{
   text-align:center;
 
   border-top:1px solid #bdbdbd;
+
+  margin-top:-10px;
 }
 
 .footer-bottom p{
@@ -343,8 +355,8 @@ footer{
   }
 
   .hero{
-    min-height:auto;
-    padding-bottom:80px;
+  width:100%;
+  min-height:110vh;
   }
 
   .hero-content{
