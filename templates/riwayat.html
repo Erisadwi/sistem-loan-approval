@@ -32,17 +32,14 @@
         <h1>Deciloan</h1>
       </div>
 
-       <!-- NAV RIGHT -->
-<div class="nav-right">
-
-  <!-- MENU -->
-  <ul class="nav-menu">
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/form">Pengajuan</a></li>
-    <li><a href="{{ url_for('review_ui') }}">Review</a></li>
-    <li><a href="/case_base">Basis Kasus</a></li>
-    <li><a href="{{ url_for('riwayat') }}">Riwayat</a></li>
-  </ul>
+       <div class="nav-right">
+        <ul class="nav-menu">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/form">Pengajuan</a></li>
+        <li><a href="/review-ui">Review</a></li>
+        <li><a href="/case_base">Basis Kasus</a></li>
+        <li><a href="/riwayat" style="color:#ea08bd;">Riwayat</a></li>
+        </ul>
 
   <!-- PROFILE -->
   <div class="profile">
@@ -87,13 +84,22 @@
           <h2>Data Riwayat Aktivitas</h2>
 
           <form method="GET" action="{{ url_for('riwayat.riwayat') }}">
-  <input 
+
+  <input
       type="text"
       name="search"
-      placeholder="Cari data..."
+      placeholder="Search..."
       value="{{ search if search else '' }}"
-      onkeyup="this.form.submit()"
   >
+
+  <button type="submit" class="btn-search">
+    Cari
+  </button>
+
+  <a href="{{ url_for('riwayat.riwayat') }}" class="btn-reset">
+    Reset
+  </a>
+
 </form>
         </div>
 
@@ -129,6 +135,46 @@
 </tbody>
 
           </table>
+
+                </div>
+
+        <!-- PAGINATION -->
+        {% set start_page = page - 2 if page - 2 > 1 else 1 %}
+        {% set end_page = page + 2 if page + 2 < total_pages else total_pages %}
+
+        <div class="pagination">
+
+          {% if page > 1 %}
+            <a href="{{ url_for('riwayat.riwayat', page=1, search=search) }}">«</a>
+          {% else %}
+            <span class="disabled">«</span>
+          {% endif %}
+
+          {% if page > 1 %}
+            <a href="{{ url_for('riwayat.riwayat', page=page-1, search=search) }}">‹</a>
+          {% else %}
+            <span class="disabled">‹</span>
+          {% endif %}
+
+          {% for p in range(start_page, end_page + 1) %}
+            {% if p == page %}
+              <span class="active">{{ p }}</span>
+            {% else %}
+              <a href="{{ url_for('riwayat.riwayat', page=p, search=search) }}">{{ p }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page < total_pages %}
+            <a href="{{ url_for('riwayat.riwayat', page=page+1, search=search) }}">›</a>
+          {% else %}
+            <span class="disabled">›</span>
+          {% endif %}
+
+          {% if page < total_pages %}
+            <a href="{{ url_for('riwayat.riwayat', page=total_pages, search=search) }}">»</a>
+          {% else %}
+            <span class="disabled">»</span>
+          {% endif %}
 
         </div>
 

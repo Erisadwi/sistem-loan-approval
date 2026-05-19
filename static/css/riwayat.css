@@ -262,6 +262,159 @@ tbody tr:hover{
 }
 
 /* =========================
+   SEARCH FORM
+=========================*/
+.table-header form{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+
+  background:#ffffff;
+
+  padding:14px 18px;
+
+  border-radius:14px;
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+
+.table-header form input[type="text"]{
+  height:44px;
+
+  min-width:240px;
+
+  padding:0 16px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:#f2f5f9;
+
+  font-size:14px;
+
+  outline:none;
+
+  transition:.25s;
+}
+
+.table-header form input:focus{
+  background:#eaf1ff;
+}
+
+.btn-search,
+.btn-reset{
+  height:44px;
+
+  padding:0 26px;
+
+  border-radius:10px;
+
+  font-weight:600;
+
+  font-size:14px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-decoration:none;
+
+  transition:.25s;
+}
+
+.btn-search{
+  background:#2F80ED;
+  color:#fff;
+
+  border:none;
+
+  cursor:pointer;
+}
+
+.btn-search:hover{
+  transform:translateY(-2px);
+
+  box-shadow:0 10px 20px rgba(47,128,237,0.25);
+}
+
+.btn-reset{
+  background:#f34940;
+
+  color:#ffffff;
+}
+
+.btn-reset:hover{
+  transform:translateY(-2px);
+
+  box-shadow:0 10px 20px rgba(237,113,47,0.25);
+}
+
+/* =========================
+   PAGINATION
+=========================*/
+.pagination{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+
+  margin-top:25px;
+
+  flex-wrap:wrap;
+
+  font-family:Arial, sans-serif;
+}
+
+.pagination a,
+.pagination span{
+  padding:8px 14px;
+
+  border-radius:8px;
+
+  text-decoration:none;
+
+  font-size:14px;
+
+  border:1px solid #e0e0e0;
+
+  color:#444;
+
+  transition:0.2s;
+
+  background:white;
+}
+
+.pagination a:hover{
+  background:#f3f6ff;
+  border-color:#4f6df5;
+  color:#4f6df5;
+
+  transform:translateY(-1px);
+}
+
+.pagination .active{
+  background:#4f6df5;
+  color:white;
+
+  border-color:#4f6df5;
+
+  font-weight:bold;
+
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+
+.pagination .disabled{
+  color:#aaa;
+  background:#f5f5f5;
+
+  pointer-events:none;
+}
+
+/* =========================
    FOOTER
 =========================*/
 footer{
