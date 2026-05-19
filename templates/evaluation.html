@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evaluation</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/riwayat.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+
+.hero-review{
+    background:
+    linear-gradient(
+    145deg,
+    #fffefb 0%,      
+    #f6eadf 30%,     
+    #f4dfe8 50%,     
+    #eadff4 55%,     
+    #ddd7fb 82%,     
+    #d5e0f6 100%     
+);
+
+position:relative;
+overflow:hidden;
+}
+
+.hero-review::before{
+    content:"";
+    position:absolute;
+    width:150%;
+    height:280px;
+    top:130px;
+    left:-25%;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.4),
+        transparent
+    );
+
+    transform:rotate(-5deg);
+}
+
+.dashboard{
+    width:100%;
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-bottom:60px;
+}
+
+.card{
+    background:rgba(255,255,255,0.45);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.35);
+    border-radius:28px;
+    padding:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    transition:.3s ease;
+    position:relative;
+    overflow:hidden;
+    font-size:px;
+    font-weight:700;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.2);
+    top:-60px;
+    right:-50px;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.card h2{
+    font-size:25px;
+    color:#5c5c5c;
+    font-weight:600;
+}
+
+.card-icon{
+    width:52px;
+    height:52px;
+    border-radius:18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    flex-shrink:0;
+}
+
+.card-icon .material-icons{
+    font-size:24px;
+    line-height:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.icon-total{
+    background:
+    linear-gradient(
+        135deg,
+        #7b61ff,
+        #5f6fff
+    );
+}
+
+.icon-train{
+    background:
+    linear-gradient(
+        135deg,
+        #ff8fab,
+        #ff5d8f
+    );
+}
+
+.icon-test{
+    background:
+    linear-gradient(
+        135deg,
+        #4dabf7,
+        #339af0
+    );
+}
+
+.icon-accuracy{
+    background:
+    linear-gradient(
+        135deg,
+        #51cf66,
+        #2f9e44
+    );
+}
+
+.number{
+    font-size:42px;
+    font-weight:800;
+    color:#2f2f2f;
+}
+
+.accuracy-box{
+    margin-top:10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 22px;
+    border-radius:999px;
+    background:#e9fbef;
+    color:#1c9b52;
+    font-weight:700;
+    font-size:30px;
+}
+
+.matrix-title{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:14px;
+    color:#333;
+}
+
+.matrix-wrapper{
+    overflow-x:auto;
+}
+
+.matrix-table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:22px;
+}
+
+.matrix-table thead{
+   background:#f6cad8 !important;
+    color:#222 !important;
+    border:none !important;
+    font-size:16px;
+    font-weight:700;
+    padding:20px;
+    text-align:center;
+}
+
+.matrix-table thead th{
+    padding:22px;
+    text-align:center;
+    color:#444;
+    font-size:16px;
+}
+
+.matrix-table tbody td{
+    padding:20px;
+    text-align:center;
+    background:white;
+    border-bottom: 1px solid #ececec;
+    font-size:17px;
+    font-weight:400; 
+    color:#444;
+}
+
+.matrix-table tbody tr:hover td{
+    background:#faf8ff;
+}
+
+.label-cell{
+    font-weight:700;
+    color:#2f2f2f;
+}
+
+.info-box{
+    margin-top:25px;
+    background:
+    rgba(255,255,255,0.65);
+    border-radius:22px;
+    padding:22px;
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.info-item{
+    background:white;
+    border-radius:16px;
+    padding:16px 18px;
+    font-size:14px;
+    box-shadow:
+    0 5px 15px rgba(0,0,0,0.04);
+}
+
+.info-item b{
+    color:#6c63ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero hero-review">
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="{{ url_for('static', filename='uploads/crypto-wallet.png') }}" alt="logo">
+            <h1>Deciloan</h1>
+        </div>
+
+        <div class="nav-right">
+
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/form">Pengajuan</a></li>
+                <li><a href="/review-ui">Review</a></li>
+                <li><a href="/case_base">Basis Kasus</a></li>
+                <li><a href="/riwayat">Riwayat</a></li>
+                <li><a href="/evaluation" style="color:#ea08bd;">Evaluation</a></li>
+            </ul>
+
+            <div class="profile">
+                <a href="/profil"> 
+                    <img
+                        src="{% if user and user.foto %}
+                                {{ url_for('static', filename='uploads/' + user.foto) }}
+                            {% else %}
+                                {{ url_for('static', filename='uploads/default.png') }}
+                            {% endif %}"
+                        alt="Profile">
+                </a>
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="hero-content">
+        <h1>Evaluation</h1>
+        <p>Monitoring hasil akurasi dan confusion matrix model</p>
+    </div>
+
+    <section class="history-section">
+    <div class="table-container">
+
+        <div class="dashboard">
+
+            <div class="card">
+                <div class="card-top">
+                    <h2>Total Dataset</h2>
+
+                    <div class="card-icon icon-total">
+                        <span class="material-icons">storage</span>
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ total_dataset }}
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-top">
+                    <h2>Data Training</h2>
+
+                    <div class="card-icon icon-train">
+                        <span class="material-icons">model_training</span>
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ train_count }}
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-top">
+                    <h2>Data Testing</h2>
+
+                    <div class="card-icon icon-test">
+                        <span class="material-icons">fact_check</span>
+                    </div>
+                </div>
+
+                <div class="number">
+                    {{ test_count }}
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-top">
+                    <h2>Akurasi Model</h2>
+
+                    <div class="card-icon icon-accuracy">
+                        <span class="material-icons">analytics</span>
+                    </div>
+                </div>
+
+                <div class="accuracy-box">
+                    {{ accuracy }}%
+                </div>
+
+            </div>
+
+        </div>
+
+        <h2 class="matrix-title">
+            Confusion Matrix
+        </h2>
+
+        <div class="matrix-wrapper">
+
+            <table class="matrix-table">
+
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Predicted Approved</th>
+                        <th>Predicted Rejected</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td class="label-cell">
+                            Actual Approved
+                        </td>
+
+                        <td>{{ tp }}</td>
+                        <td>{{ fn }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">
+                            Actual Rejected
+                        </td>
+
+                        <td>{{ fp }}</td>
+                        <td>{{ tn }}</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="info-box">
+
+            <div class="info-item">
+                <b>TP</b> : Approved diprediksi Approved
+            </div>
+
+            <div class="info-item">
+                <b>FN</b> : Approved diprediksi Rejected
+            </div>
+
+            <div class="info-item">
+                <b>FP</b> : Rejected diprediksi Approved
+            </div>
+
+            <div class="info-item">
+                <b>TN</b> : Rejected diprediksi Rejected
+            </div>
+
+        </div>
+
+    </div>
+
+    </section>
+
+</section>
+
+<div class="footer-bottom">
+    <p>© 2025 Deciloan. All Rights Reserved.</p>
+</div>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ from controllers.hasilAnalisis_controller import hasil_bp
 from controllers.review_controller import review_bp
 from controllers.profil_controller import profil_bp
 from controllers.riwayat_controller import riwayat_bp
+from controllers.evaluation_controller import evaluation_bp
 from utils.db import get_db_connection
 
 app = Flask(__name__)
@@ -20,6 +21,7 @@ app.register_blueprint(hasil_bp)
 app.register_blueprint(review_bp, url_prefix='/review')
 app.register_blueprint(profil_bp, url_prefix='/profil')
 app.register_blueprint(riwayat_bp)
+app.register_blueprint(evaluation_bp)
 
 # Dashboard
 @app.route('/dashboard')

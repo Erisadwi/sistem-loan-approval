@@ -267,11 +267,19 @@ table tr:hover td{
                 <li><a href="/review-ui" style="color:#ea08bd;">Review</a></li>
                 <li><a href="/case_base">Basis Kasus</a></li>
                 <li><a href="/riwayat">Riwayat</a></li>
+                <li><a href="/evaluation">Evaluation</a></li>
             </ul>
 
             <div class="profile">
-                <a href="/profil">
-                    <img src="{{ url_for('static', filename='uploads/profile.png') }}" alt="logo">
+                <a href="/profil"> 
+                    <img
+                        src="{% if user and user.foto %}
+                                {{ url_for('static', filename='uploads/' + user.foto) }}
+                            {% else %}
+                                {{ url_for('static', filename='uploads/default.png') }}
+                            {% endif %}"
+                        alt="Profile"
+                    >
                 </a>
             </div>
         </div>
