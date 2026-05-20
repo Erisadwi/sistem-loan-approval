@@ -255,35 +255,66 @@
   </section>
 
   <!-- =========================
-       FOOTER
-  ==========================-->
-  <footer>
+     FOOTER
+=========================-->
+<footer>
 
-    <!-- FOOTER LOGO -->
-    <div class="footer-logo">
+  <!-- LOGO -->
+  <div class="footer-logo">
 
-      <img src="{{ url_for('static', filename='uploads/crypto-wallet.png') }}" alt="logo">
-      <h1>Deciloan</h1>
+    <img src="{{ url_for('static', filename='uploads/crypto-wallet.png') }}" alt="logo">
+    <h1>Deciloan</h1>
 
-    </div>
+  </div>
 
-    <!-- FOOTER RIGHT -->
-    <div class="footer-right">
+  <!-- FOOTER RIGHT -->
+  <div class="footer-right">
 
-      <!-- CONTACT -->
-      <div class="footer-box">
+    <!-- CONTACT BOX -->
+    <div class="footer-card">
+
+      <!-- ICON -->
+      <div class="footer-icon">
+        🎧
+      </div>
+
+      <!-- CONTENT -->
+      <div class="footer-content">
 
         <h3>Hubungi kami:</h3>
 
-        <p>Admin :</p>
+        <p class="footer-desc">
+          Tim Deciloan siap membantu Anda terkait
+          pengajuan kredit, informasi layanan,
+          serta kendala teknis pada sistem.
+          Silakan hubungi admin melalui kontak berikut
+          pada jam operasional.
+        </p>
+
+      </div>
+
+      <!-- CONTACT -->
+      <div class="footer-contact">
+
+        <p><b>Admin :</b></p>
         <p>📞 0812-3456-7890</p>
         <p>📞 0812-3456-7890</p>
         <p>📞 0812-3456-7890</p>
 
       </div>
 
-      <!-- OPERATION -->
-      <div class="footer-box">
+    </div>
+
+    <!-- OPERATION BOX -->
+    <div class="footer-card operation-card">
+
+      <!-- ICON -->
+      <div class="footer-icon">
+        🕒
+      </div>
+
+      <!-- CONTENT -->
+      <div class="footer-content">
 
         <h3>Jam Operasional:</h3>
 
@@ -294,9 +325,11 @@
 
     </div>
 
-  </footer>
+  </div>
 
-    <!-- FOOTER BOTTOM -->
+</footer>
+
+<!-- FOOTER BOTTOM -->
 <div class="footer-bottom">
   <p>© 2025 Deciloan. All Rights Reserved.</p>
 </div>
