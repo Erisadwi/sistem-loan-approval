@@ -1,12 +1,18 @@
 import pandas as pd
 import numpy as np
+import json
 from collections import Counter
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 print("STEP 3: EVALUASI MODEL")
 
-train_df = pd.read_csv("dataset/train.csv")
-test_df = pd.read_csv("dataset/test.csv")
+train_df = pd.read_csv(
+    "evaluation/dataset/train.csv"
+)
+
+test_df = pd.read_csv(
+    "evaluation/dataset/test.csv"
+)
 
 print("Data train:", train_df.shape)
 print("Data test :", test_df.shape)
@@ -66,20 +72,53 @@ for i in range(len(X_test)):
     print("Prediksi :", pred)
     print("-" * 30)
 
-accuracy = accuracy_score(y_test, predictions)
+accuracy = round(
+    accuracy_score(y_test, predictions) * 100,
+    2
+)
 
 print("\n===================================")
 print("HASIL EVALUASI MODEL")
 print("===================================")
 
-print(f"Akurasi Model : {accuracy * 100:.2f}%")
+print(f"Akurasi Model : {accuracy}%")
 
 cm = confusion_matrix(y_test, predictions)
 
-print("\nConfusion Matrix:")
-print(cm)
+tn,fp,fn,tp = cm.ravel()
 
-report = classification_report(y_test, predictions)
+hasil={
 
-print("\nClassification Report:")
-print(report)
+    "total_dataset":
+        len(train_df)+len(test_df),
+
+    "train":
+        len(train_df),
+
+    "test":
+        len(test_df),
+
+    "accuracy":
+        accuracy,
+
+    "tp":int(tp),
+    "fp":int(fp),
+    "fn":int(fn),
+    "tn":int(tn)
+
+}
+
+with open(
+    "evaluation/hasil_evaluasi.json",
+    "w"
+) as f:
+
+    json.dump(
+        hasil,
+        f
+    )
+
+
+print(
+"hasil evaluasi disimpan"
+)
