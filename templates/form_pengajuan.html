@@ -14,8 +14,6 @@
 
 <style>
 
-
-/* HERO */
 .hero-form{
     min-height:calc(100vh - 55px);
     display:flex;
@@ -36,7 +34,6 @@
     overflow:hidden;
 }
 
-/* SHINE EFFECT */
 .hero-form::before{
     content:"";
     position:absolute;
@@ -58,7 +55,6 @@
     transform:rotate(-4deg);
 }
 
-/* CONTENT */
 .content-wrapper{
     width:100%;
 
@@ -68,7 +64,6 @@
     z-index:2;
 }
 
-/* TITLE */
 .page-title{
     margin:10px 0 18px;
     font-size:45px;
@@ -76,7 +71,6 @@
     color:#333;
 }
 
-/* CARD */
 .card{
     width:100%;
 
@@ -95,20 +89,17 @@
     padding:38px;
 }
 
-/* FORM GRID */
 .form-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:22px;
 }
 
-/* GROUP */
 .form-group{
     display:flex;
     flex-direction:column;
 }
 
-/* LABEL */
 .form-group label{
     font-size:15px;
     font-weight:600;
@@ -118,7 +109,6 @@
     margin-bottom:10px;
 }
 
-/* INPUT */
 .form-group input,
 .form-group select{
     padding:16px 18px;
@@ -145,12 +135,10 @@
         0 0 0 4px rgba(216,180,254,0.15);
 }
 
-/* FULL WIDTH */
 .full-width{
     grid-column:1 / -1;
 }
 
-/* BUTTON */
 .submit-btn{
     margin-top:30px;
 
@@ -192,7 +180,6 @@
     justify-content:flex-end;
 }
 
-/* MODAL */
 .modal{
     position:fixed;
     inset:0;
@@ -209,7 +196,6 @@
     z-index:999;
 }
 
-/* POPUP */
 .popup-box{
     width:380px;
 
@@ -232,13 +218,11 @@
     animation:popupShow .3s ease;
 }
 
-/* POPUP TITLE */
 .popup-box h3{
     font-size:30px;
     margin-bottom:16px;
 }
 
-/* POPUP TEXT */
 .popup-box p{
     font-size:15px;
 
@@ -248,7 +232,6 @@
         rgba(255,255,255,0.88);
 }
 
-/* ANIMATION */
 @keyframes popupShow{
 
     from{
@@ -272,7 +255,6 @@
 
 <section class="hero-form">
 
-    <!-- NAVBAR -->
     <nav class="navbar">
 
         <div class="logo">
@@ -328,7 +310,6 @@
 
             </ul>
 
-            <!-- PROFILE -->
             <div class="profile">
 
                 <a href="/profil"> 
@@ -348,7 +329,6 @@
 
     </nav>
 
-    <!-- CONTENT -->
     <div class="content-wrapper">
 
         <h2 class="page-title">
@@ -403,7 +383,7 @@
                     <div class="form-group">
 
                         <label>
-                            Penghasilan Perbulan
+                            Penghasilan Pertahun
                         </label>
 
                         <input
@@ -477,13 +457,10 @@
 
 </section>
 
-<!-- FOOTER BOTTOM -->
   <div class="footer-bottom">
     <p>© 2025 Deciloan. All Rights Reserved.</p>
   </div>
 
-
-<!-- POPUP -->
 <div class="modal" id="successPopup">
 
     <div class="popup-box">

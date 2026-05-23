@@ -33,7 +33,6 @@ body{
     );
 }
 
-/* BACKGROUND GLOW */
 body::before,
 body::after{
     content: '';
@@ -59,7 +58,6 @@ body::after{
     right: -120px;
 }
 
-/* EXTRA GLOW */
 .glow1,
 .glow2,
 .glow3{
@@ -93,7 +91,6 @@ body::after{
     left: 45%;
 }
 
-/* MAIN WRAPPER */
 .wrapper{
     width: 950px;
     height: 540px;
@@ -118,7 +115,6 @@ body::after{
         inset 0 0 30px rgba(255,255,255,0.08);
 }
 
-/* EXTRA GLASS LAYER */
 .wrapper::before{
     content: '';
     position: absolute;
@@ -136,7 +132,6 @@ body::after{
     pointer-events: none;
 }
 
-/* LEFT SIDE */
 .left{
     flex: 1;
     padding: 70px;
@@ -150,7 +145,6 @@ body::after{
     position: relative;
 }
 
-/* TITLE */
 .left h2{
     font-size: 56px;
     font-weight: 600;
@@ -161,18 +155,15 @@ body::after{
         0 10px 20px rgba(0,0,0,0.15);
 }
 
-/* FORM */
 form{
     width: 100%;
     max-width: 420px;
 }
 
-/* INPUT GROUP */
 .input-group{
     margin-bottom: 18px;
 }
 
-/* INPUT */
 input{
     width: 100%;
 
@@ -210,7 +201,6 @@ input:focus{
         0 10px 30px rgba(225,205,239,0.35);
 }
 
-/* BUTTON */
 button{
     width: 100%;
 
@@ -251,7 +241,6 @@ button:hover{
         0 0 30px rgba(223,207,251,0.45);
 }
 
-/* RIGHT SIDE */
 .right{
     flex: 1;
 
@@ -262,7 +251,6 @@ button:hover{
     position: relative;
 }
 
-/* INFO BOX */
 .info-box{
     width: 340px;
     min-height: 180px;
@@ -293,7 +281,6 @@ button:hover{
     margin-right: 40px;
 }
 
-/* INFO TITLE */
 .info-box h3{
     font-size: 22px;
     font-weight: 600;
@@ -306,7 +293,6 @@ button:hover{
         0 2px 12px rgba(0,0,0,0.15);
 }
 
-/* INFO TEXT */
 .info-box p{
     font-size: 14px;
     line-height: 1.7;
@@ -315,7 +301,6 @@ button:hover{
         rgb(121, 121, 212);
 }
 
-/* RESPONSIVE */
 @media(max-width: 900px){
 
     .wrapper{
@@ -349,15 +334,12 @@ button:hover{
 
 <body>
 
-<!-- GLOW -->
 <div class="glow1"></div>
 <div class="glow2"></div>
 <div class="glow3"></div>
 
-<!-- MAIN -->
 <div class="wrapper">
 
-    <!-- LEFT -->
     <div class="left">
 
         <h2>Log in</h2>
@@ -390,7 +372,6 @@ button:hover{
 
     </div>
 
-    <!-- RIGHT -->
     <div class="right">
 
         <div class="info-box">
