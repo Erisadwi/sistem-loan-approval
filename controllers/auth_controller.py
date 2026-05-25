@@ -59,10 +59,6 @@ def dashboard():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # =========================
-    # CARD DATA
-    # =========================
-
     cursor.execute("SELECT COUNT(*) AS total FROM basis_kasus")
     total = cursor.fetchone()['total']
 
@@ -81,10 +77,6 @@ def dashboard():
     rejected = cursor.fetchone()['rejected']
 
     pending = 0
-
-    # =========================
-    # DATA GRAFIK PER BULAN
-    # =========================
 
     cursor.execute("""
         SELECT 
