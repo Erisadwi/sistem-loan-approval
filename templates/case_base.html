@@ -263,8 +263,8 @@ form .btn-reset:active{
               <td>{{ k.loan_id }}</td>
               <td>{{ k.no_of_dependents }}</td>
               <td>{{ k.self_employed }}</td>
-              <td>Rp {{ "{:,.0f}".format(k.income_annum) }}</td>
-              <td>Rp {{ "{:,.0f}".format(k.loan_amount) }}</td>
+              <td>{{ "{:,.0f}".format(k.income_annum).replace(",", ".") }}</td>
+              <td>{{ "{:,.0f}".format(k.loan_amount).replace(",", ".") }}</td>
               <td>{{ k.loan_term }} bln</td>
               <td>{{ k.cibil_score }}</td>
 
