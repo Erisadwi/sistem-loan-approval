@@ -451,6 +451,31 @@ ul{
   border-radius:50%;
 }
 
+/* warna legend */
+.color-0{
+  background:#7372e7;
+}
+
+.color-1{
+  background:#6fd3cb;
+}
+
+.color-2{
+  background:#ff4f87;
+}
+
+.color-3{
+  background:#e7e56f;
+}
+
+.color-4{
+  background:#f39c12;
+}
+
+.color-5{
+  background:#9b59b6;
+}
+
 .legend-left span{
   font-size:16px;
   font-weight:600;
@@ -459,6 +484,15 @@ ul{
 .legend-right{
   font-size:14px;
   color:#555;
+}
+
+:root{
+  --c1:#7372e7;
+  --c2:#6fd3cb;
+  --c3:#ff4f87;
+  --c4:#e7e56f;
+  --c5:#f39c12;
+  --c6:#9b59b6;
 }
 /* =========================
    FOOTER

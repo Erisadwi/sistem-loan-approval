@@ -124,6 +124,15 @@ def dashboard():
     cursor.close()
     conn.close()
 
+    colors = [
+        "#7372e7",
+        "#6fd3cb",
+        "#ff4f87",
+        "#e7e56f",
+        "#f39c12",
+        "#9b59b6"
+    ]
+
     return render_template(
         'dashboard.html',
         nama=session['nama'],
